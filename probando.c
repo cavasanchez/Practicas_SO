@@ -1,26 +1,40 @@
-
+#include <string.h>
 #include <ctype.h>
 #include <stdio.h>
-#define TAM_MAX=1024
+#include <stdlib.h>
+#define TAM_MAX 1024
 
-int main(int N) {
-	if (isdigit(N) == 0) {
-		printf("No es váliddo");
-		return 1;
-	} else {
-		char cadena[100];
-		int i = 0;
-		for (i=0; i <= N; i++) {
-			fgets(cadena, 100, stdin);
-			printf("%s", cadena);
-		}
-		return 0;
+int main(int argc, char *argv[]) {
+	int i = 0;	
+	int numeroElementos;
+	numeroElementos=atoi(argv[1]);
+	char** guarda;
+	guarda= (char**) malloc (numeroElementos*sizeof(char*));
+
+	for(i=0;i<numeroElementos;i++){
+	guarda[i]=(char*) malloc (TAM_MAX*sizeof(char));
+	}
+
+	char* cadenaEntrada;
+	cadenaEntrada = (char *) malloc (TAM_MAX*sizeof(char));
+	
+	
+	for (i=0; i <= numeroElementos-1; i++) {
+		fgets(cadenaEntrada, TAM_MAX, stdin);
+		strcpy(guarda[i],cadenaEntrada);			
+	}
+printf("\n");
+printf("*****EL RESULTADO ES:*****\n");
+	imprimirArray(guarda,numeroElementos-1);
+	free(guarda);
+	free(cadenaEntrada);
+	return 0;
+}
+
+void imprimirArray(char** array, int tamanio){
+int i=0;
+	for(i=0;i<=tamanio;i++){
+		printf("%s", array[i]);	
 	}
 }
-char ** inicializarStrings(int num_lineas){
-//char ** c=NULL;
-char** c = (char**) malloc (N*sizeof(char*));
-int i;
-for(int i=0;i<num_lineas;i++){
-	c[i] = (char*) malloc (TAM_MAX*sizeof(char));
-}
+
