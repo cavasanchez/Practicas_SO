@@ -84,3 +84,4 @@ Siendo <dir> el directorio, por ejemplo origin, y <branch> la rama del repositor
 $ git push origin master
 
 NOTA: Este archivo esta actualmente en construcción.
+Carlos es chachi
