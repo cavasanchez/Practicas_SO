@@ -24,7 +24,7 @@ $ git config --global user.email "tu_email@ejemplo.com"
 Sustituye Tu nombre por tu nombre y tu_email@ejemplo.com por tu correo en GitHub.
 
 
-CLONAR UN REPOSITORIO
+CLONAR UN REPOSITORIOa 
 
 Como la propia palabra indica, al clonar un repositorio lo que hacemos es crear un clon de uno ya existente, generalmente se suele clonar como un nuevo repositorio local.
 
@@ -84,4 +84,3 @@ Siendo <dir> el directorio, por ejemplo origin, y <branch> la rama del repositor
 $ git push origin master
 
 NOTA: Este archivo esta actualmente en construcción.
-Carlos es chachi

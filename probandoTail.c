@@ -18,8 +18,8 @@ int main(int argc, char *argv[]) {
 	char** guarda;
 //guarda=inicializarArrayPunteros(numeroElementos);
 
-	guarda= (char**) malloc (numeroElementos*sizeof(char*));
-	for(i=0;i<numeroElementos;i++){
+	guarda= (char**) malloc (TAM_MAX*sizeof(char*));
+	for(i=0;i<TAM_MAX;i++){
 	guarda[i]=(char*) malloc (TAM_MAX*sizeof(char));
 	}
 
@@ -28,24 +28,24 @@ int main(int argc, char *argv[]) {
 	cadenaEntrada = (char *) malloc (TAM_MAX*sizeof(char));
 
 	while(fgets(cadenaEntrada, TAM_MAX, stdin) != NULL){
-		printf("ENTRA WHILE");
 		int aux=(j%numeroElementos);
-		printf("El numero es :%i \n",aux);
+		strcpy(guarda[j],cadenaEntrada);
 		j++;
-		strcpy(guarda[(j%numeroElementos)],cadenaEntrada);
 }
-	printf("FICHERO CERRADO \n");
-	printf("*****EL RESULTADO ES:*****\n");
-	imprimirArray(guarda,numeroElementos-1);
+	imprimirArrayFinal(guarda,j,numeroElementos);
 	printf("\n");
-	free(guarda);
+
+	for(i=0;i<TAM_MAX;i++){
+	free(guarda[i]);
+	}
+
 	free(cadenaEntrada);
 	return 0;
 };
 
-void imprimirArray(char** array, int tamanio){
+void imprimirArrayFinal(char** array, int j, int numeroElementos){
 int i=0;
-	for(i=0;i<=tamanio;i++){
+	for(i=j-numeroElementos;i<=j;i++){
 		printf("%s", array[i]);
 	}
 };
