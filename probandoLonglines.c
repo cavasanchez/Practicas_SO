@@ -5,11 +5,13 @@
 
 void imprimir (char**);
 int longitud (char**);
-void menor (char**,int *,int *,int);
+int menor (char**,int);
+void insertar (char**,char*,int);
 
 int main (int argc, char *argv[]) {
 	int i;	// i: contador
 	int n;	// n: numero de strings a guardar
+	int tam_menor;	// tam_menor: longitud del string menor del array
 
 	// 1) En caso de que no se haya pasado un parametro o este sea cero, default: head(10)
 
@@ -39,17 +41,11 @@ int main (int argc, char *argv[]) {
 	// 5) Leemos entrada y almacenamos en entrada
 
 	i=0;
+	tam_menor=0;
 	while(fgets(entrada, TAM_MAX, stdin) != NULL){
-		if (i<n) {
-			strcpy(solucion[i],entrada);
-		} else {
-			int nuevo = strlen(entrada);
-			int anterior=0;
-			int posicion=0;
-			menor(solucion,&anterior,&posicion,n);
-			if (nuevo>anterior){
-				strcpy(solucion[posicion],entrada);
-			}
+		if (strlen(entrada)>tam_menor) {
+			int nueva_posicion = menor (solucion,strlen(entrada));
+			insertar(solucion,entrada,nueva_posicion);
 		}
 		i++;
 	}
@@ -88,17 +84,25 @@ int longitud (char** string) {
 	return i;
 }
 
-void menor (char** solucion, int *anterior, int *posicion, int tam){
-	*posicion=0;
-	*anterior=TAM_MAX;
+// menor: metodo que devuelve la posicion donde insertar el nuevo
+
+int menor (char** solucion, int nuevo){
 	int i;
-	for (i=0;i<tam;i++) {
-		int l=strlen(solucion[i]);
-		if (l<*anterior) {
-			*posicion=i;
-			*anterior=l;
-		}
+	for (i=0;i<longitud(solucion);i++) {
+		if (nuevo<strlen(solucion[i])) {break;}
 	}
+	return i;
+}
+
+// insertar: metodo que inserta el nuevo valor en el array
+
+void insertar (char** solucion, char* entrada, int nueva_posicion) {
+	int i;
+	//if (esta_lleno) {
+	for (i=longitud(solucion);i>nueva_posicion;i--) {
+		strcpy(solucion[i-1],solucion[i]);
+	}
+	strcpy(solucion[nueva_posicion],entrada);
 }
 
 // se le va la bola con los impares (otra vez)
