@@ -3,60 +3,72 @@
 #include <stdlib.h>
 #define TAM_MAX 1024
 
-int main(int argc, char *argv[]) {
-	int i = 0;
-	int j=0;
-	int numeroElementos;
-	numeroElementos=atoi(argv[1]);
-	if(numeroElementos==0) {
-	printf("El parámetro introducido no es correcto. Por defecto se ejecuta head(10) \n");
-	numeroElementos=10;
+void imprimir (char**,int,int);
+
+int main (int argc, char *argv[]) {
+	int i;	// i: contador
+	int j;	// j: valor auxiliar
+	int n;	// n: numero de strings a guardar
+
+	// 1) En caso de que no se haya pasado un parametro o este sea cero, default: head(10)
+
+	if (argv[1] == NULL || argv[1] == 0) {
+		printf("El parametro introducido no es correcto. Por defecto se ejecutara head(10)\n");
+		n=10;
+	} else {
+		n=atoi(argv[1]);
 	}
 
-	//guarda será un array de punteros que actuará como buffer. Se inicializa para que en cada posición haya espacio suficiente para la entrada
+	// 2) solucion: array de punteros que actuara como buffer.
 
-	char** guarda;
-//guarda=inicializarArrayPunteros(numeroElementos);
+	char** solucion;	
 
-	guarda= (char**) malloc (TAM_MAX*sizeof(char*));
-	for(i=0;i<TAM_MAX;i++){
-	guarda[i]=(char*) malloc (TAM_MAX*sizeof(char));
+	// 3) Inicialiamos solucion reservando espacio suficiente.
+
+	solucion= (char**) malloc (n*sizeof(char*));
+	for (i=0;i<n;i++) {
+		solucion[i]=(char*) malloc (TAM_MAX*sizeof(char));
 	}
 
-	//cadenaEntrada será donde se almacene la entrada
-	char* cadenaEntrada;
-	cadenaEntrada = (char *) malloc (TAM_MAX*sizeof(char));
+	// 4) entrada: string donde se almacena la entrada
 
-	while(fgets(cadenaEntrada, TAM_MAX, stdin) != NULL){
-		int aux=(j%numeroElementos);
-		strcpy(guarda[j],cadenaEntrada);
-		j++;
-}
-	imprimirArrayFinal(guarda,j,numeroElementos);
-	printf("\n");
+	char* entrada;
+	entrada = (char *) malloc (TAM_MAX*sizeof(char));
 
-	for(i=0;i<TAM_MAX;i++){
-	free(guarda[i]);
+	// 5) Leemos entrada y almacenamos en entrada
+
+	i=0;
+	while (fgets(entrada,TAM_MAX,stdin) != NULL) {
+		j=i%n;
+		printf("Metemos el valor %i en la posicion %i de %i \n",i,j,n);
+		strcpy(solucion[j],entrada);
+		i++;
 	}
 
-	free(cadenaEntrada);
+	// 6) Imprimimos la solucion
+
+	imprimir(solucion,j+1,n);
+
+	// 7) Liberamos el espacio usado
+
+	i=0;
+	for (i=0;i<n;i++) {
+		free(solucion[i]);
+	}
+	free(entrada);
+
 	return 0;
-};
+}
 
-void imprimirArrayFinal(char** array, int j, int numeroElementos){
-int i=0;
-	for(i=j-numeroElementos;i<=j;i++){
-		printf("%s", array[i]);
-	}
-};
-char** inicializarArrayPunteros(int numero){
-int i=0;
-char** guarda;
-guarda= (char**) malloc (numero*sizeof(char*));
-	for(i=0;i<numero;i++){
-	guarda[i]=(char*) malloc (TAM_MAX*sizeof(char));
-	}
-return guarda;
-};
+// imprimir: metodo que imprime la solucion por pantalla
 
-//MAKEFILE!!!!!
+void imprimir (char** string, int j, int tam) {
+	printf("\n ##### La Solucion es: ##### \n");
+	int i=0;
+	for (i=0;i<tam;i++) {
+		int aux = (j+i)%tam;
+		printf("%s",string[aux]);
+	}
+}
+
+// se le va la bola con los impares
