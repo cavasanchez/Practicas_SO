@@ -35,7 +35,6 @@ int main (int argc, char *argv[]) {
 	i=0;
 	while (fgets(entrada,TAM_MAX,stdin) != NULL) {
 		j=i%n;
-		printf("Metemos el valor %i en la posicion %i de %i \n",i,j,n);
 		strcpy(solucion[j],entrada);
 		i++;
 	}

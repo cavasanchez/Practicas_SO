@@ -2,26 +2,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TAM_MAX 1024
-
+/*
 void imprimir (char**);
 int longitud (char**);
+//void limpiarEspacio(char*, char**);
+void print(char**, int);
+*/
 
 int main (int argc, char *argv[]) {
 	int i;	// i: contador
 	int n;	// n: numero de strings a guardar
+	char** solucion;	// solucion: array de punteros que actuara como buffer.
+	char* entrada;	//entrada: string donde se almacena la entrada
 
 	// 1) En caso de que no se haya pasado un parametro o este sea cero, default: head(10)
-
 	if (argv[1] == NULL || argv[1] == 0) {
 		printf("El parametro introducido no es correcto. Por defecto se ejecutara head(10)\n");
 		n=10;
 	} else {
 		n=atoi(argv[1]);
 	}
-
-	// 2) solucion: array de punteros que actuara como buffer.
-
-	char** solucion;	
 
 	// 3) Inicialiamos solucion reservando espacio suficiente.
 
@@ -32,22 +32,25 @@ int main (int argc, char *argv[]) {
 
 	// 4) entrada: string donde se almacena la entrada
 
-	char* entrada;
 	entrada = (char *) malloc (TAM_MAX*sizeof(char));
 
 	// 5) Leemos entrada y almacenamos en entrada
 
+/*
 	i=0;
-	while (fgets(entrada,TAM_MAX,stdin) != NULL) {
-		if (i<n) {
+	while (fgets(entrada,TAM_MAX,stdin) != NULL && i<n-1) {
 			strcpy(solucion[i],entrada);
-		}
-		i++;
+			i++;
+	}
+	*/
+	for(i=0;i<n;i++){
+		fgets(entrada,TAM_MAX,stdin);
+		strcpy(solucion[i],entrada);
 	}
 
 	// 6) Imprimimos la solucion
-
-	imprimir(solucion);
+	//imprimir(solucion);
+	imprimir_normal(solucion,n);
 
 	// 7) Liberamos el espacio usado
 
@@ -55,26 +58,25 @@ int main (int argc, char *argv[]) {
 		free(solucion[i]);
 	}
 	free(entrada);
-
 	return 0;
 }
 
 // imprimir: metodo que imprime la solucion por pantalla
 
-void imprimir (char** string) {
-	printf("\n ##### La Solucion es: ##### \n");
-	int i;
-	for (i=0;i<longitud(string);i++) {
-		printf("%s",string[i]);
-	}
-}
-
-// longitud: metodo que devuelve la longitud de una lista de punteros
-
-int longitud (char** string) {
+void imprimir_normal(char** solucion, int n){
+	printf("***LA SOLUCION ES***\n");
 	int i=0;
-	while (string[i] != NULL) {
-		i++;
+	for(i=0;i<n;i++){
+		printf("%s",solucion[i]);
 	}
-	return i;
 }
+/*
+void limpiarEspacio(char* entrada, char** solucion){
+	int i=0;
+	printf("VA A LIMPIAR %i \n",strlen(solucion));
+	for (i=0;i<strlen(solucion);i++) {
+
+		free(solucion[i]);
+	}
+	free(entrada);
+}*/
