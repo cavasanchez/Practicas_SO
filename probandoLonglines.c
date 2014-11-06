@@ -6,7 +6,7 @@
 void imprimir (char**);
 int longitud (char**);
 int menor (char**,int);
-void insertar (char**,char*,int);
+void insertar (char**,char*,int,int);
 
 int main (int argc, char *argv[]) {
 	int i;	// i: contador
@@ -21,33 +21,21 @@ int main (int argc, char *argv[]) {
 		n=atoi(argv[1]);
 	}
 
-	// 2) solucion: array de punteros que actuara como buffer.
 	char** solucion;
-
-	// 3) Inicialiamos solucion reservando espacio suficiente.
 	solucion= (char**) malloc (n*sizeof(char*));
 	for (i=0;i<n;i++) {
 		solucion[i]=(char*) malloc (TAM_MAX*sizeof(char));
 	}
-
-	// 4) entrada: string donde se almacena la entrada
 	char* entrada;
 	entrada = (char *) malloc (TAM_MAX*sizeof(char));
 
-	// 5) Leemos entrada y almacenamos en entrada
 	i=0;
 	tam_menor=0;
 	while(fgets(entrada, TAM_MAX, stdin) != NULL){
 		if (strlen(entrada)>tam_menor) {
-				if(esta_lleno(solucion,n)==1){
-					printf("ARRAY NO LLENO \n");
-
-				}
-				else{
-					printf("ARRAY YA LLENO \n");
 					int nueva_posicion = menor (solucion,strlen(entrada));
-					insertar(solucion,entrada,nueva_posicion);
-				}
+					printf("nueva posicion es %i \n",nueva_posicion);
+					insertar(solucion,entrada,nueva_posicion,n);
 		}
 	}
 	// 6) Imprimimos la solucion
@@ -82,36 +70,39 @@ int longitud (char** string) {
 
 // menor: metodo que devuelve la posicion donde insertar el nuevo
 int menor (char** solucion, int nuevo){
-	printf("entra a menor \n");
 	int i;
 	for (i=0;i<longitud(solucion);i++) {
-		if (nuevo<strlen(solucion[i])) {break;}
+		if (nuevo>strlen(solucion[i])) {break;}
 	}
 	return i;
 }
 
 // insertar: metodo que inserta el nuevo valor en el array
-void insertar (char** solucion, char* entrada, int nueva_posicion) {
+void insertar (char** solucion, char* entrada, int nueva_posicion, int n) {
 	printf("Intenta añadir en la posicion %i \n",nueva_posicion);
 	int i;
-	//if (esta_lleno) {
-	for (i=longitud(solucion);i>nueva_posicion;i--) {
-		strcpy(solucion[i-1],solucion[i]);
+	for (i=longitud(solucion);i>nueva_posicion+1;i--) {
+		strcpy(solucion[i-2],solucion[i-1]);
+		printf("sale del primer copy\n");
 	}
 	strcpy(solucion[nueva_posicion],entrada);
+	printf("sale del segundo copy\n");
 }
 
 int esta_lleno(char** solucion,int tamanio_array){
 int lleno=0;
-int i;
+int i=0;
 int aux=0;
-for(i=0;i<longitud(solucion);i++){
-	if(solucion[i]!=NULL){
+
+//ESTE PUTO BUCLE PASA DE LOS NULL
+	while(solucion[i] != NULL){
 		aux++;
+		i++;
 	}
-}
-if(aux==tamanio_array){
+	printf("AUX ES %i \n",aux);
+	printf("tamaño ES %i \n",tamanio_array);
+	if(aux==tamanio_array){
 	lleno=1;
-}
+	}
 return lleno;
 }
