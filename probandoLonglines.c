@@ -12,7 +12,7 @@ void print(char**,int);
 int main (int argc, char *argv[]) {
 	int i;	// i: contador
 	int n;	// n: numero de strings a guardar
-	int tam_menor;	// tam_menor: longitud del string menor del array
+	int tam_menor=0;	// tam_menor: longitud del string menor del array
 
 	// 1) En caso de que no se haya pasado un parametro o este sea cero, default: head(10)
 	if (argv[1] == NULL || argv[1] == 0) {
@@ -31,26 +31,24 @@ int main (int argc, char *argv[]) {
 	entrada = (char *) malloc (TAM_MAX*sizeof(char));
 
 	i=0;
-	tam_menor=0;
 	while(fgets(entrada, TAM_MAX, stdin) != NULL){
+		tam_menor=strlen(solucion[n-1]);
 		if (strlen(entrada)>tam_menor) {
 					int nueva_posicion = menor (solucion,strlen(entrada));
 					insertar(solucion,entrada,nueva_posicion,n);
 		}
 		else{
-			printf("La entrada no es suficientemente grande para guardarse");
+			printf("La entrada no es suficientemente grande para guardarse \n");
 		}
 	}
 	// 6) Imprimimos la solucion
 	imprimir(solucion);
-
 
 	// 7) Liberamos el espacio usado
 	for (i=0;i<n;i++) {
 		free(solucion[i]);
 	}
 	free(entrada);
-
 	return 0;
 }
 
@@ -95,7 +93,8 @@ void insertar (char** solucion, char* entrada, int nueva_posicion, int n) {
 	int i;
 	for (i=longitud(solucion)-1;i>nueva_posicion;i--) {
 		printf("Va a mover %s a la posición %i \n",solucion[i-1],i);
-		strcpy(solucion[i-1],solucion[i]);
+		//strcpy(solucion[i-1],solucion[i]);
+		strcpy(solucion[i],solucion[i-1]);
 
 	}
 	printf("se han movido %i elementos \n",longitud(solucion)-i-1);
