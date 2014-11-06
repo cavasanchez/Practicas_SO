@@ -2,12 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TAM_MAX 1024
-/*
-void imprimir (char**);
-int longitud (char**);
-//void limpiarEspacio(char*, char**);
-void print(char**, int);
-*/
+
+void limpiarEspacio(char*, char**,int);
+void imprimir_normal(char**,int);
 
 int main (int argc, char *argv[]) {
 	int i;	// i: contador
@@ -24,59 +21,35 @@ int main (int argc, char *argv[]) {
 	}
 
 	// 3) Inicialiamos solucion reservando espacio suficiente.
-
 	solucion= (char**) malloc (n*sizeof(char*));
 	for (i=0;i<n;i++) {
 		solucion[i]=(char*) malloc (TAM_MAX*sizeof(char));
 	}
 
 	// 4) entrada: string donde se almacena la entrada
-
 	entrada = (char *) malloc (TAM_MAX*sizeof(char));
 
-	// 5) Leemos entrada y almacenamos en entrada
-
-/*
-	i=0;
-	while (fgets(entrada,TAM_MAX,stdin) != NULL && i<n-1) {
-			strcpy(solucion[i],entrada);
-			i++;
-	}
-	*/
 	for(i=0;i<n;i++){
 		fgets(entrada,TAM_MAX,stdin);
 		strcpy(solucion[i],entrada);
 	}
 
-	// 6) Imprimimos la solucion
-	//imprimir(solucion);
 	imprimir_normal(solucion,n);
-
-	// 7) Liberamos el espacio usado
-
-	for (i=0;i<n+1;i++) {
-		free(solucion[i]);
-	}
-	free(entrada);
-	return 0;
+	limpiarEspacio(entrada,solucion,n);
 }
-
 // imprimir: metodo que imprime la solucion por pantalla
-
 void imprimir_normal(char** solucion, int n){
-	printf("***LA SOLUCION ES***\n");
+printf("\n ##### La Solución es: ##### \n");
 	int i=0;
 	for(i=0;i<n;i++){
 		printf("%s",solucion[i]);
 	}
-}
-/*
-void limpiarEspacio(char* entrada, char** solucion){
-	int i=0;
-	printf("VA A LIMPIAR %i \n",strlen(solucion));
-	for (i=0;i<strlen(solucion);i++) {
+};
 
+void limpiarEspacio(char* entrada, char** solucion,int n){
+	int i=0;
+	for (i=0;i<n;i++) {
 		free(solucion[i]);
 	}
 	free(entrada);
-}*/
+}
