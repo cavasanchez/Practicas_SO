@@ -2,19 +2,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TAM_MAX 1024
-void imprimir (char**);
+
 int longitud (char**);
 int menor (char**,int);
 void insertar (char**,char*,int,int);
 char** reservarEspacio(int);
+char** limpiarEspacio(char**,int);
+void imprimir_normal(char**,int);
+
 
 int main (int argc, char *argv[]) {
 	int i; // i: contador
 	int n; // n: numero de strings a guardar
 	int tam_menor=0; // tam_menor: longitud del string menor del array
-	char** solucion;
-	char* entrada;
-// 1) En caso de que no se haya pasado un parametro o este sea cero, default: head(10)
+	char** solucion;	// solucion: array de punteros que actuara como buffer.
+	char* entrada;	//entrada: string donde se almacena la entrada
+
+// En caso de que no se haya pasado un parametro o este sea cero, default: head(10)
 	if (argv[1] == NULL || argv[1] == 0) {
 		printf("El parametro introducido no es correcto. Por defecto se ejecutara head(10)\n");
 		n=10;
@@ -25,40 +29,29 @@ int main (int argc, char *argv[]) {
 
 	//Se reserva el espacio necesario
 	solucion=reservarEspacio(n);
-	entrada = (char *) malloc (TAM_MAX*sizeof(char));
+	entrada = (char *) malloc (TAM_MAX*sizeof(char)+1);
 	i=0;
-printf("ENTRA AL WHILE");
+
 while(fgets(entrada, TAM_MAX, stdin) != NULL){
-	printf("entre en tam_menor");
 	tam_menor=strlen(solucion[n-1]);
 	if (strlen(entrada)>tam_menor) {
-		printf("llama a menor");
 		int nueva_posicion = menor (solucion,strlen(entrada));
-		printf("llama a insertar");
 		insertar(solucion,entrada,nueva_posicion,n);
 	}
 	else{
 		printf("La entrada no es suficientemente grande para guardarse \n");
 	}
 }
-// 6) Imprimimos la solucion
-printf("LLEGA AL IMPRIMIR DEL FINAL");
-imprimir(solucion);
-// 7) Liberamos el espacio usado
-for (i=0;i<n;i++) {
-free(solucion[i]);
-}
-free(entrada);
+
+// Imprimimos la solucion
+imprimir_normal(solucion,n);
+
+//Se libera espacio
+solucion=limpiarEspacio(solucion,n);
+free (entrada);
+
 return 0;
 }
-// imprimir: metodo que imprime la solucion por pantalla
-void imprimir (char** string) {
-	printf("##### La Solucion FINAL es: ##### \n");
-	int i;
-	for (i=0;i<longitud(string);i++) {
-		printf("%s",string[i]);
-	}
-};
 
 // longitud: metodo que devuelve la longitud de una lista de punteros
 int longitud (char** string) {
@@ -83,15 +76,30 @@ void insertar (char** solucion, char* entrada, int nueva_posicion, int n) {
 	strcpy(solucion[i],solucion[i-1]);
 	}
 	strcpy(solucion[nueva_posicion],entrada);
-	printf("\n");
 };
 
 char** reservarEspacio(int n){
 	int i=0;
 	char** solucion;
-	solucion= (char**) malloc (n*sizeof(char*));
+	solucion= (char**) malloc (n*sizeof(char*)+1);
 	for (i=0;i<n;i++) {
 	solucion[i]=(char*) malloc (TAM_MAX*sizeof(char));
 	}
 	return solucion;
+};
+
+char** limpiarEspacio(char** solucion,int n){
+	int i=0;
+	for (i=0;i<n;i++) {
+		free(solucion[i]);
+	}
+	return solucion;
+}
+
+void imprimir_normal(char** solucion, int n){
+	printf("\n ##### La Solución es: ##### \n");
+	int i=0;
+	for(i=0;i<n;i++){
+		printf("%s",solucion[i]);
+	}
 };
