@@ -1,9 +1,14 @@
 \chapter{Código}
+\section{Funciones Auxiliares}
+Antes de explicar las funciones pedidas, comentaremos brevemente las funciones auxiliares que hemos utilizados
 En primer lugar explicaremos algunas funciones auxiliares que hemos utilizado: 
+\subsubsection{char** reservarEspacio(int)}
+Esta función se encarga de reservar el espacio necesario para que nuestro array de soluciones tenga el tamaño justo, y cada elemento de dicho array pueda almacenar cualquier String que se introduzca por la entrada.
+\subsubsection{void liberarEspacio(char**,int)}
+Esta función se encarga de liberar la memoria dinámica tras su uso. Recibe el array de punteros donde se guarda nuestra solucion y le aplica $free$ a todos sus elementos.
 \section{Función head}
 La primera función a implementar es $int head(int N)$, que deberá comportarse como \textit{head(1)} y devolver las N primeras lineas en la salida estándar recibidas por entrada estándar
-\section{Funciones Auxiliares}
-Antes de explicar las funciones pedidas, vamos a 
+
 \section{Función tail}
 
 
