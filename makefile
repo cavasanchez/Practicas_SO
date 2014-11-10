@@ -6,7 +6,7 @@ CC = gcc
 CFLAGS = -g -Wall	#Muestra las advertencias y errores del depurador
 ENTRADA = test.c libreria.c libreria.h
 SALIDA = test.o libreria.o
-BOR = libreria.o
+BOR = libreria.o test.o
 
 run: $(SALIDA)
 	$(CC) $(CFLAGS) -o test $(SALIDA)
