@@ -1,0 +1,9 @@
+\select@language {spanish}
+\contentsline {chapter}{\numberline {1}C\IeC {\'o}digo}{3}
+\contentsline {section}{\numberline {1.1}Funciones Auxiliares}{3}
+\contentsline {subsubsection}{char** reservarEspacio(int)}{3}
+\contentsline {subsubsection}{void liberarEspacio(char**,int)}{3}
+\contentsline {section}{\numberline {1.2}Funci\IeC {\'o}n head}{3}
+\contentsline {section}{\numberline {1.3}Funci\IeC {\'o}n tail}{3}
+\contentsline {section}{\numberline {1.4}Funci\IeC {\'o}n longLines}{3}
+\contentsline {chapter}{\numberline {2}Comentarios personales}{4}

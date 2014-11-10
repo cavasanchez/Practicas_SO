@@ -1,0 +1,86 @@
+
+¿COMO UTILIZAR GIT?
+
+Aqui tenemos una pequeña guia introductoria de como usar Git.
+
+INSTALACIÓN
+
+Ejecutamos en el terminal sudo apt-get install git. Aunque con esto ya esta listo, es probable que deseemos acceder directamente a las herrramientas que Git nos proporciona, para ello podemos ejecurar el siguiente código:
+
+$ sudo add-apt-repository ppa:rabbitvcs/rabbitvcs-testing
+$ sudo apt-get update
+$ sudo apt-get install rabbitvcs-nautilus3 rabbitvcs-gedit rabbitvcs-cli
+
+PRIMEROS PASOS
+
+Aqui encontrarás una pequeña guía de los primeros pasos a dar para un uso correcto del control de versiones Git.
+CONFIGURAR GIT
+
+Debemos escribir en el terminal:
+
+$ git config --global user.name "Tu nombre"
+$ git config --global user.email "tu_email@ejemplo.com"
+
+Sustituye Tu nombre por tu nombre y tu_email@ejemplo.com por tu correo en GitHub.
+
+
+CLONAR UN REPOSITORIOa 
+
+Como la propia palabra indica, al clonar un repositorio lo que hacemos es crear un clon de uno ya existente, generalmente se suele clonar como un nuevo repositorio local.
+
+¿Cómo se clona un repositorio?
+En linux basta con que ejecutemos lo siguiente en la Terminal:
+
+$ cd <path a la carpeta donde se va a escargar>
+$ git clone https://github.com/username/repositorio.git
+
+En nuestro caso https://github.com/cavasanchez/Practicas_SO.git
+
+¿CÓMO ACTUALIZAR EL REPOSITORIO A LA ÚLTIMA REVISIÓN?
+
+Es tan simple como:
+
+    Acedemos a la carpeta donde se encuentra en repo con en mandato cd.
+    Ejecutamos en comando de Git para ello git pull.
+
+Quedando asi:
+
+$ cd <path de la carpeta>
+$ git pull
+
+¿CÓMO PUEDO MODIFICAR UN ARCHIVO?
+
+Existen varias formas de actualizar el repositorio:
+
+    Mediante el comando git add añadimos manualmente los archivos que hemos modificado. Y posteriormente con el comando git commit añadimos un comentario para lo que se haya actualizado.
+    Se puede usar el argumento -a para el mandato git commit de forma que hace un todo en uno y actualiza los archivos.
+
+Ejemplos:
+
+$ git add ./source/main.cpp     # Se añade el archivo ./source/main.cpp
+$ git add source                # Se añade todo lo modificado en la carpeta /source
+$ git add .                     # Se actualiza todo lo que haya variado.
+$
+$ git commit -m "Añadido main"  # Se actualiza con el mensaje "Añadido main"
+$ git commit                    # Se ejecuta el editor de texto predefinido para insertar el comentario
+
+Nota: No es recomendable hacer uso del método 2, a no ser que uno sea muy consciente de qué ha modificado.
+
+Por último solo falta subir los cambios al sevidor de GitHub, el mécanismo es muy simple:
+
+    Si es la primera vez que lo haces, deberás añadir un punto remoto.
+    Despues, usando el comando git push actualizamos.
+
+Quedando asi:
+
+$ git remote add origin https://github.com/usuario/repositorio.git
+
+En nuestro caso https://github.com/cavasanchez/Practicas_SO.git
+
+$ git push <dir> <brach>
+
+Siendo <dir> el directorio, por ejemplo origin, y <branch> la rama del repositorio, generalmente 'master'. En nuestro caso:
+
+$ git push origin master
+
+NOTA: Este archivo esta actualmente en construcción.
