@@ -68,25 +68,22 @@ int longLines (int n) {
 	solucion=reservarEspacio(n);
 	entrada = (char *) malloc (TAM_MAX*sizeof(char)+1);
 
-while(fgets(entrada, TAM_MAX, stdin) != NULL){
-	tam_menor=strlen(solucion[n-1]);
-	if (strlen(entrada)>tam_menor) {
-		int nueva_posicion = menor (solucion,strlen(entrada));
-		insertar(solucion,entrada,nueva_posicion,n);
-	}
-	else{
-		printf("La entrada no es suficientemente grande para guardarse \n");
-	}
-}
+  while(fgets(entrada, TAM_MAX, stdin) != NULL){
+	   tam_menor=strlen(solucion[n-1]);
+	    if (strlen(entrada)>tam_menor) {
+		      int nueva_posicion = menor (solucion,strlen(entrada));
+		      insertar(solucion,entrada,nueva_posicion,n);
+	    }
+  }
 
-// Imprimimos la solucion
-imprimir_normal(solucion,n);
+  // Imprimimos la solucion
+  imprimir_normal(solucion,n);
 
-//Se libera espacio
-limpiarEspacio(solucion,n);
-free (entrada);
+  //Se libera espacio
+  limpiarEspacio(solucion,n);
+  free (entrada);
 
-return 0;
+  return 0;
 }
 
 // longitud: metodo que devuelve la longitud de una lista de punteros
@@ -125,7 +122,7 @@ void imprimirTail (char** string, int j, int tam) {
 };
 
 void imprimir_normal(char** solucion, int n){
-printf("\n ##### La Solución es: ##### \n");
+printf("\n##### La Solución es: ##### \n");
   int i=0;
   for(i=0;i<n;i++){
     printf("%s",solucion[i]);
