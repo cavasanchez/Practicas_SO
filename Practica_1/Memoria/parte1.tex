@@ -48,6 +48,15 @@ Este proceso se lleva acabo:
 \item Una condición en la que solo entrará si se puede insertar $entrada$ en $solución$ (cuando esta es menor que la menor del array)
 \item Y una función auxiliar llamada $insertar$ dentro de la condición anterior que recibirá el array $solución$, la variable $entrada$ y la posición en la que ha de ser insertada, para insertarla correctamente.
 \end{itemize}
+\begin{figure}[htb]
+\begin{center}
+\centering
+  \includegraphics[width=0.8\textwidth]{./img_2}
+  \caption{Funcionamiento del longLines}
+  \label{fig:Funcionamiento del longLines}
+\end{center}
+\end{figure} 
+
 La función auxiliar $insertar$, recorre de derecha a izquierda hasta la posición en la que ha de insertar $entrada$, situando el elemento $solución[i-1]$ en $solución[i]$. Cuando finaliza, solo le queda por insertar en la posición correspondiente el valor entrada.
 Por último, una vez salido del bucle, solo queda imprimir por pantalla la lista solución llamando a la función $imprimir_normal$ explicada en la primera función (no es necesario crear una función imprimir específica para esta como en $tail$, puesto que el array ya viene ordenado y listo para ser impreso).
 \section{Makefile}

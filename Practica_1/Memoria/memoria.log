@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.23)  12 NOV 2014 18:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.23)  12 NOV 2014 22:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -590,14 +590,20 @@ LaTeX Warning: Command \' invalid in math mode on input line 48.
 
 LaTeX Warning: Command \' invalid in math mode on input line 49.
 
-[5 <./img_1.JPG>]
+[5 <./img_1.JPG>] <./img_2.jpg, id=29, 602.25pt x 249.18094pt>
+File: ./img_2.jpg Graphic file (type jpg)
 
-LaTeX Warning: Command \' invalid in math mode on input line 51.
+<use ./img_2.jpg>
+Package pdftex.def Info: ./img_2.jpg used on input line 54.
+(pdftex.def)             Requested size: 288.0011pt x 119.16443pt.
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 51.
+LaTeX Warning: Command \' invalid in math mode on input line 60.
 
-[6]
+
+LaTeX Warning: Command \' invalid in math mode on input line 60.
+
+[6 <./img_2.jpg>]
 Cap\'{\i }tulo 2.
 ) [7
 
@@ -606,10 +612,10 @@ LaTeX Info: Redefining \. on input line 2.
 LaTeX Info: Redefining \% on input line 2.
 ) ) 
 Here is how much of TeX's memory you used:
- 3541 strings out of 493304
- 44908 string characters out of 6139870
- 107900 words of memory out of 5000000
- 6897 multiletter control sequences out of 15000+600000
+ 3547 strings out of 493304
+ 45014 string characters out of 6139870
+ 107910 words of memory out of 5000000
+ 6902 multiletter control sequences out of 15000+600000
  54248 words of font info for 44 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,6n,26p,751b,293s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -621,10 +627,10 @@ mf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmm
 i8.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/font
 s/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb>
 </usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb>
-Output written on memoria.pdf (7 pages, 218275 bytes).
+Output written on memoria.pdf (7 pages, 238148 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
+ 69 PDF objects out of 1000 (max. 8388607)
  48 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
