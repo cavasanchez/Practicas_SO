@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.23)  12 NOV 2014 12:40
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.23)  12 NOV 2014 18:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -541,6 +541,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 ] (./parte1.tex
 Cap\'{\i }tulo 1.
+
+LaTeX Warning: Command \' invalid in math mode on input line 12.
+
+
+LaTeX Warning: Command \' invalid in math mode on input line 12.
+
 [3
 
 ]
@@ -556,7 +562,7 @@ LaTeX Warning: Command \' invalid in math mode on input line 22.
 
 LaTeX Warning: Command \' invalid in math mode on input line 25.
 
-<./img_1.JPG, id=18, 340.27126pt x 164.11313pt>
+<./img_1.JPG, id=19, 340.27126pt x 164.11313pt>
 File: ./img_1.JPG Graphic file (type jpg)
  <use ./img_1.JPG>
 Package pdftex.def Info: ./img_1.JPG used on input line 29.
@@ -565,27 +571,15 @@ Package pdftex.def Info: ./img_1.JPG used on input line 29.
 
 LaTeX Warning: Command \' invalid in math mode on input line 36.
 
-
-LaTeX Warning: Command \' invalid in math mode on input line 37.
-
-
-LaTeX Warning: Command \' invalid in math mode on input line 37.
-
 [4]
 
-LaTeX Warning: Command \' invalid in math mode on input line 40.
+LaTeX Warning: Command \' invalid in math mode on input line 39.
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 40.
+LaTeX Warning: Command \' invalid in math mode on input line 39.
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 43.
-
-
-LaTeX Warning: Command \' invalid in math mode on input line 45.
-
-
-LaTeX Warning: Command \' invalid in math mode on input line 46.
+LaTeX Warning: Command \' invalid in math mode on input line 44.
 
 
 LaTeX Warning: Command \' invalid in math mode on input line 47.
@@ -594,9 +588,16 @@ LaTeX Warning: Command \' invalid in math mode on input line 47.
 LaTeX Warning: Command \' invalid in math mode on input line 48.
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 48.
+LaTeX Warning: Command \' invalid in math mode on input line 49.
 
-[5 <./img_1.JPG>] [6]
+[5 <./img_1.JPG>]
+
+LaTeX Warning: Command \' invalid in math mode on input line 51.
+
+
+LaTeX Warning: Command \' invalid in math mode on input line 51.
+
+[6]
 Cap\'{\i }tulo 2.
 ) [7
 
@@ -605,22 +606,22 @@ LaTeX Info: Redefining \. on input line 2.
 LaTeX Info: Redefining \% on input line 2.
 ) ) 
 Here is how much of TeX's memory you used:
- 3540 strings out of 493304
- 44903 string characters out of 6139870
- 108900 words of memory out of 5000000
- 6896 multiletter control sequences out of 15000+600000
+ 3541 strings out of 493304
+ 44908 string characters out of 6139870
+ 107900 words of memory out of 5000000
+ 6897 multiletter control sequences out of 15000+600000
  54248 words of font info for 44 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,6n,26p,751b,293s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/e
-nc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/e
+nc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/
 share/texmf/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/texmf/fonts/type1/public/l
 m/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/tex
 mf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmm
 i8.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/font
 s/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb>
 </usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb>
-Output written on memoria.pdf (7 pages, 216135 bytes).
+Output written on memoria.pdf (7 pages, 218275 bytes).
 PDF statistics:
  68 PDF objects out of 1000 (max. 8388607)
  48 compressed objects within 1 object stream
