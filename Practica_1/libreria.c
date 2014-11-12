@@ -92,21 +92,21 @@ int longitud (char** string) {
 	while (string[i] != NULL) {
 		i++;
 	}
-return i;
+  return i;
 }
 // menor: metodo que devuelve la posicion donde insertar el nuevo
 int menor (char** solucion, int nuevo){
 	int i;
 	for (i=0;i<longitud(solucion);i++) {
 		if (nuevo>strlen(solucion[i])) {break;}
-		}
-		return i;
+	}
+	return i;
 }
 // insertar: metodo que inserta el nuevo valor en el array
 void insertar (char** solucion, char* entrada, int nueva_posicion, int n) {
 	int i;
 	for (i=longitud(solucion)-1;i>nueva_posicion;i--) {
-	strcpy(solucion[i],solucion[i-1]);
+    strcpy(solucion[i],solucion[i-1]);
 	}
 	strcpy(solucion[nueva_posicion],entrada);
 };
@@ -140,7 +140,7 @@ char** reservarEspacio(int n){
   char** solucion;
   solucion= (char**) malloc (n*sizeof(char*)+1);
   for (i=0;i<n;i++) {
-  solucion[i]=(char*) malloc (TAM_MAX*sizeof(char));
+    solucion[i]=(char*) malloc (TAM_MAX*sizeof(char));
   }
   return solucion;
 }

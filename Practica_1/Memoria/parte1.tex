@@ -9,7 +9,8 @@ Esta función se encarga de liberar la memoria dinámica tras su uso. Recibe el 
 \subsubsection{void imprimir-normal(char**,int)}
 Método muy simple que imprime todos los Strings almacenados hasta que llega al límite.
 \subsubsection{void imprimirTail (char**,int,int)}
-LUIS ESCRÍBEME ESTEEEEEE.
+Hemos tenido que implementar una función específica de imprimir para tail ya que esta tiene que imprimir solución empezando por una posición que no tiene por qué ser la primera.
+Así, esta función imprimir recibirá como parámetros $solución$ y j (la última posición en la que se guardó el parámetro de entrada en el array) +1. Para recorrer el array, solo es necesario un bucle que vaya de i hasta N, y que en cada iteración imprima $solución[(j+i)\%N]$.
 \subsubsection{int longitud (char**)}
 Devuelve el número de elementos no nulos que contiene el array.
 \subsubsection{int menor (char**,int)}
@@ -33,8 +34,7 @@ En esta función se repite el mismo método de reservar espacio. Cuando se ha re
 \end{figure} 
 
 El bucle por lo tanto realiza iteraciones mientras $entrada != NULL$, y va guardando en la posición $j=i\%n$ de solución el parámetro $entrada$ recibido, y actualizando posteriormente la variable i (i++).
-Por último, tras salir del bucle (CTRL+D) se procede a imprimir por pantalla el array $solución$ llamando a la función $imprimirTail$. Hemos tenido que implementar una función específica de imprimir para tail ya que esta tiene que imprimir solución empezando por una posición que no tiene por qué ser la primera.
-Así, esta función imprimir recibirá como parámetros $solución$ y j (la última posición en la que se guardó el parámetro de entrada en el array) +1. Para recorrer el array, solo es necesario un bucle que vaya de i hasta N, y que en cada iteración imprima $solución[(j+i)\%N]$.
+Por último, tras salir del bucle (CTRL+D) se procede a imprimir por pantalla el array $solución$ llamando a la función $imprimirTail$.
 \section{Función longLines}
 Por último, se nos pide implementar la función $int longlines(int N)$, que mostrará las N líneas más largas de forma ordenada recibidas por la entrada estándar.
 En esta función se vuelve a utilizar el método de reservar espacio para el array $solución$. Posteriormente, entramos un bucle que iterará mientras $entrada != NULL$ en el que se irán metiendo en $solución$:
