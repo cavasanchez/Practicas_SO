@@ -6,6 +6,16 @@ En primer lugar explicaremos algunas funciones auxiliares que hemos utilizado:
 Esta función se encarga de reservar el espacio necesario para que nuestro array de soluciones tenga el tamaño justo, y cada elemento de dicho array pueda almacenar cualquier String que se introduzca por la entrada.
 \subsubsection{void liberarEspacio(char**,int)}
 Esta función se encarga de liberar la memoria dinámica tras su uso. Recibe el array de punteros donde se guarda nuestra solucion y le aplica $free$ a todos sus elementos.
+\subsubsection{void imprimir-normal(char**,int)}
+Método muy simple que imprime todos los Strings almacenados hasta que llega al límite.
+\subsubsection{void imprimirTail (char**,int,int)}
+LUIS ESCRÍBEME ESTEEEEEE.
+\subsubsection{int longitud (char**)}
+Devuelve el número de elementos no nulos que contiene el array.
+\subsubsection{int menor (char**,int)}
+Método que indicará en la función longlines dónde tiene que insertarse el elemento entrada. Para ello obtendrá el tamaño del String entrada, e irá comparando los tamaños de los Strings ya guardados en solución hasta encontrar uno que no lo supere.
+\subsubsection{void insertar (char**,char*,int,int)}
+Método principal de la función longLines. Se encarga de mover los elementos del array hacia la derecha a partir de la posición donde se situará  del array, y a continuación inserta el elemento de entrada en su posición correcta. Para más información ver función longLines. 
 \section{Función head}
 La primera función a implementar es $int head(int N)$, que deberá comportarse como \textit{head(1)} y devolver las N primeras lineas en la salida estándar recibidas por entrada estándar.
 En esta, primero reservamos espacio en una variable $solución$ llamando a la función $reservarEspacio$, descrita anteriormente. Luego, mediante un bucle de N iteraciones, guardamos los parámetros que vayamos recibiendo por consola en la posición i de $solución$.
@@ -13,7 +23,15 @@ Al terminar el bucle, llamamos a la función $imprimir_normal$, que lo que hará
 \section{Función tail}
 La segunda función a implementar es $int tail(int N)$, que deberá comportarse como \textit{tail(1)} y devolver las N últimas lineas en la salida estándar recibidas por entrada estándar.
 En esta función se repite el mismo método de reservar espacio. Cuando se ha reservado espacio en la variable $solución$, se pasa a guardar la información que se pase por entrada en esta variable. Para ello, se requerirá, a parte de la variable contador i, otra variable j auxiliar, que durante el bucle se actualizará a $j=i\%n$. Esto es debido a que hay que simular que la variable solución es un array estático que hace la función de una cola. Lo hemos hecho así para no malgastar espacio de manera innecesaria, como se hubiera hecho si hubiesemos reservado un espacio determinado, y luego hubiesemos leido las N últimas posiciones (además de poder pasar por entrada tantas líneas como se desee).
-\includegraphics[width=4cm]{./img_1}
+\begin{figure}[htb]
+\begin{center}
+\centering
+  \includegraphics[width=0.8\textwidth]{./img_1}
+  \caption{funcionamiento del Tail}
+  \label{fig:Funcionamiento del Tail}
+\end{center}
+\end{figure} 
+
 El bucle por lo tanto realiza iteraciones mientras $entrada != NULL$, y va guardando en la posición $j=i\%n$ de solución el parámetro $entrada$ recibido, y actualizando posteriormente la variable i (i++).
 Por último, tras salir del bucle (CTRL+D) se procede a imprimir por pantalla el array $solución$ llamando a la función $imprimirTail$. Hemos tenido que implementar una función específica de imprimir para tail ya que esta tiene que imprimir solución empezando por una posición que no tiene por qué ser la primera.
 Así, esta función imprimir recibirá como parámetros $solución$ y j (la última posición en la que se guardó el parámetro de entrada en el array) +1. Para recorrer el array, solo es necesario un bucle que vaya de i hasta N, y que en cada iteración imprima $solución[(j+i)\%N]$.
@@ -28,6 +46,8 @@ Este proceso se lleva acabo:
 	-una condición en la que solo entrará si se puede insertar $entrada$ en $solución$ (cuando esta es menor que la menor del array),
 	-y una función auxiliar llamada $insertar$ dentro de la condición anterior que recibirá el array $solución$, la variable $entrada$ y la posición en la que ha de ser insertada, para insertarla correctamente.
 La función auxiliar $insertar$, para insertar un elemento en el array recorre de derecha a izquierda hasta la posición en la que ha de insertar $entrada$, situando el elemento $solución[i-1]$ en $solución[i]$. Cuando finaliza, solo le queda por insertar en la posición correspondiente el valor entrada.
-%\includegraphics[width=4cm]{./img_2} -- Aun tengo que hacerla
 Por último, una vez salido del bucle, solo queda imprimir por pantalla la lista solución llamando a la función $imprimir_normal$ explicada en la primera función (no es necesario crear una función imprimir específica para esta como en $tail$, puesto que el array ya viene ordenado y listo para ser impresa).
+\section{Makefile}
+Debido a lo tedioso que podría llegar a ser ir compilando el test.c y la librería, además de que se creaban archivos innecesarios (libreria.o y test.o ), decidimos crear un pequeño makefile que se encargaría de hacer todas estas compilaciones y posteriores borrados, facilitando enormemente nuestro trabajo.
 \chapter{Comentarios personales}
+Como era la primera vez que trabajábamos con C, y estando acostumbrados a java, en un primer momento el manejo de punteros  
