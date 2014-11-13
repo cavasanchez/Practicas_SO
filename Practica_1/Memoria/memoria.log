@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.23)  12 NOV 2014 22:56
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.4)  13 NOV 2014 12:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -613,7 +613,7 @@ LaTeX Info: Redefining \% on input line 2.
 ) ) 
 Here is how much of TeX's memory you used:
  3547 strings out of 493304
- 45014 string characters out of 6139870
+ 45014 string characters out of 6139871
  107910 words of memory out of 5000000
  6902 multiletter control sequences out of 15000+600000
  54248 words of font info for 44 fonts, out of 8000000 for 9000
@@ -627,7 +627,7 @@ mf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmm
 i8.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/font
 s/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb>
 </usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb>
-Output written on memoria.pdf (7 pages, 238148 bytes).
+Output written on memoria.pdf (7 pages, 237984 bytes).
 PDF statistics:
  69 PDF objects out of 1000 (max. 8388607)
  48 compressed objects within 1 object stream
