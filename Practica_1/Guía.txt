@@ -1,4 +1,3 @@
-
 ¿COMO UTILIZAR GIT?
 
 Aqui tenemos una pequeña guia introductoria de como usar Git.
