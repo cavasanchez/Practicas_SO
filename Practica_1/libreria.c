@@ -13,28 +13,23 @@ void insertar (char**,char*,int,int);
 
 int head (int n) {
   int i;	// i: contador
-  //int n;	// n: numero de strings a guardar
-  char** solucion;	// solucion: array de punteros que actuara como buffer.
-  char* entrada;	//entrada: string donde se almacena la entrada
+  char* entrada_uno;	//entrada_uno: string donde se almacena una entrada
 
-  solucion=reservarEspacio(n);
-  entrada = (char *) malloc (TAM_MAX*sizeof(char));
+  //solucion=reservarEspacio(n);
+  entrada_uno = (char *) malloc (TAM_MAX*sizeof(char));
 
   for(i=0;i<n;i++){
-    fgets(entrada,TAM_MAX,stdin);
-    strcpy(solucion[i],entrada);
+    fgets(entrada_uno,TAM_MAX,stdin);
+    //strcpy(solucion[i],entrada);
+    printf("%s",entrada_uno);
   }
-
-  imprimir_normal(solucion,n);
-  limpiarEspacio(solucion,n);
-  free(entrada);
+  free(entrada_uno);
   return 0;
 }
 
 int tail (int n) {
   int i;	// i: contador
   int j;	// j: valor auxiliar
-  //int n;	// n: numero de strings a guardar
   char** solucion;	// solucion: array de punteros que actuara como buffer.
   char* entrada;	//entrada: string donde se almacena la entrada
 
