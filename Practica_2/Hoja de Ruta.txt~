@@ -1,0 +1,7 @@
+1- Un solo mandato se ejecuta(0.5)						        ÉXITO :)
+2- Un comando redirecciona de texto a archivo y al contrario(1)                         FRACASO :(
+3- Redireccionar de comando a comando y mandarlo a archivo y al contrario(1.5)
+4- Todo lo anterior para n mandatos(4)
+5- Se puede hacer background(1)
+6- Las señales se activan solo en mandatos(1) 						ÉXITO :)
+7- Funciona el cd (1)
