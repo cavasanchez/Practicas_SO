@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <fcntl.h>
 #include "parser.h"
 #define TAM 1024
 
@@ -16,27 +24,50 @@ void senal (int s){
   }
 }
 
+int redirecSalida(char* nombreFichero){
+  printf("ENTRA METODO");
+  int descriptorFichero;
+  descriptorFichero=creat(nombreFichero, S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH);
+  if (descriptorFichero==-1) {
+    fprintf(stderr,"%s: Error.%s\n",nombreFichero,strerror(errno));
+  }
+  dup2(descriptorFichero,1);
+  printf("PROMP");
+  close(descriptorFichero);
+  return(descriptorFichero);
+
+}
+
 int main(void){
   tline* linea;
   char* entrada;
   pid_t pid;
-  int i=0;
+  int comandoNumero=0;
   entrada=(char*) malloc(TAM*sizeof(char));
+  int error;
 
   //DESACTIVAMOS SEÑALES
   senal(0);
   printf("$ ");
 
   while(fgets(entrada,TAM,stdin)){
-    printf("SE HAN METIDO %i MANDATOS \n",linea->ncommands);
     linea=tokenize(entrada);
-    for(i=0; i<linea->ncommands; i++){
-      printf("ENTRA FOR\n");
+    for(comandoNumero=0; comandoNumero<linea->ncommands; comandoNumero++){
+      printf("ENTRA FOR \n");
       pid = fork();
       printf("CREA UN HIJO\n");
       if(pid==0){
-        printf("SOY EL HIJO\n");
         senal(1);
+        printf("SOY EL HIJO\n");
+
+        if(comandoNumero==0){
+          printf("*****ES EL PRIMERO\n");
+          if (linea->redirect_output != NULL) {
+            printf("HAY REDIRECCIÖN\n");
+            error=redirecSalida(linea->redirect_output);
+            printf("**El error es %i \n", error);
+          }
+        }
         pid=execvp(linea->commands[0].argv[0],linea->commands[0].argv);
         if (pid==-1){
           printf("mandato: No se encuentra el mandato \n");
@@ -44,7 +75,8 @@ int main(void){
         }
       }
     }
-    printf("SALE DEL FOR\n");
+    printf("$    FINAL\n");
   }
+  printf("$    FiiiiINAL\n");
   return 0;
 }
