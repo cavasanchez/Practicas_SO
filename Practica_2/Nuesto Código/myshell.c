@@ -27,13 +27,22 @@ void senal (int s){
 int redirecSalida(char* nombreFichero){
   int descriptorFichero;
   descriptorFichero=creat(nombreFichero, S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH);
-  if (descriptorFichero==-1) {
-    fprintf(stderr,"%s: Error.%s\n",nombreFichero,strerror(errno));
+  if (descriptorFichero!=-1){
+    dup2(descriptorFichero,1);
+    close(descriptorFichero);
   }
-  dup2(descriptorFichero,1);
-  close(descriptorFichero);
   return(descriptorFichero);
+}
 
+int redirecEntrada(char* nombreFichero){
+  int descriptorFichero;
+  descriptorFichero=open(nombreFichero, O_RDWR);
+  //Si hay un error:
+  if (descriptorFichero!=-1){
+    dup2(descriptorFichero,0);
+    close(descriptorFichero);
+  }
+  return(descriptorFichero);
 }
 
 int main(void){
@@ -52,18 +61,21 @@ int main(void){
     linea=tokenize(entrada);
     if (linea->ncommands!=0){
       for(comandoNumero=0; comandoNumero<linea->ncommands; comandoNumero++){
-        printf("ENTRA FORK \n");
+        //printf("ENTRA FORK \n");
         pid = fork();
-        printf("SALE FORK\n");
+        //printf("SALE FORK\n");
         if(pid==0){
           senal(1);
-          printf("SOY EL HIJO\n");
-          if(comandoNumero == linea->ncommands-1){
-            printf("*****ES EL ÚLTIMO\n");
+          //printf("SOY EL HIJO\n");
+
+          if(comandoNumero == linea->ncommands-1){      //Si es el ultimo comando
             if (linea->redirect_output != NULL) {
-              printf("HAY REDIRECCIÖN\n");
               descriptor=redirecSalida(linea->redirect_output);
             }
+          }
+          if(comandoNumero == linea->ncommands-1){      //Si es el primer comando
+            printf("ES EL PRIMERO\n");
+            descriptor=redirecEntrada(linea->redirect_input);
           }
           pid=execvp(linea->commands[comandoNumero].argv[0],linea->commands[comandoNumero].argv);
           if (pid==-1){
