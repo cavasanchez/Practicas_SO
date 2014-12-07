@@ -25,14 +25,12 @@ void senal (int s){
 }
 
 int redirecSalida(char* nombreFichero){
-  printf("ENTRA METODO");
   int descriptorFichero;
   descriptorFichero=creat(nombreFichero, S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH);
   if (descriptorFichero==-1) {
     fprintf(stderr,"%s: Error.%s\n",nombreFichero,strerror(errno));
   }
   dup2(descriptorFichero,1);
-  printf("PROMP");
   close(descriptorFichero);
   return(descriptorFichero);
 
@@ -42,9 +40,9 @@ int main(void){
   tline* linea;
   char* entrada;
   pid_t pid;
-  int comandoNumero=0;
+  int comandoNumero;
   entrada=(char*) malloc(TAM*sizeof(char));
-  int error;
+  int descriptor;
 
   //DESACTIVAMOS SEÑALES
   senal(0);
@@ -52,31 +50,33 @@ int main(void){
 
   while(fgets(entrada,TAM,stdin)){
     linea=tokenize(entrada);
-    for(comandoNumero=0; comandoNumero<linea->ncommands; comandoNumero++){
-      printf("ENTRA FOR \n");
-      pid = fork();
-      printf("CREA UN HIJO\n");
-      if(pid==0){
-        senal(1);
-        printf("SOY EL HIJO\n");
-
-        if(comandoNumero==0){
-          printf("*****ES EL PRIMERO\n");
-          if (linea->redirect_output != NULL) {
-            printf("HAY REDIRECCIÖN\n");
-            error=redirecSalida(linea->redirect_output);
-            printf("**El error es %i \n", error);
+    if (linea->ncommands!=0){
+      for(comandoNumero=0; comandoNumero<linea->ncommands; comandoNumero++){
+        printf("ENTRA FORK \n");
+        pid = fork();
+        printf("SALE FORK\n");
+        if(pid==0){
+          senal(1);
+          printf("SOY EL HIJO\n");
+          if(comandoNumero == linea->ncommands-1){
+            printf("*****ES EL ÚLTIMO\n");
+            if (linea->redirect_output != NULL) {
+              printf("HAY REDIRECCIÖN\n");
+              descriptor=redirecSalida(linea->redirect_output);
+            }
+          }
+          pid=execvp(linea->commands[comandoNumero].argv[0],linea->commands[comandoNumero].argv);
+          if (pid==-1){
+            fprintf(stderr, "%s:mandato: No se encuentra el mandato\n", linea->commands[0].argv[0]);
+            return 0;
           }
         }
-        pid=execvp(linea->commands[0].argv[0],linea->commands[0].argv);
-        if (pid==-1){
-          printf("mandato: No se encuentra el mandato \n");
-          return 0;
-        }
+      }
+      if (!linea->background) {
+        waitpid(pid,NULL,0);
       }
     }
-    printf("$    FINAL\n");
+    printf("$ ");
   }
-  printf("$    FiiiiINAL\n");
   return 0;
 }
