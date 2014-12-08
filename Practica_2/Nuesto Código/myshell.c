@@ -74,7 +74,6 @@ int main(void){
             }
           }
           if(comandoNumero == linea->ncommands-1){      //Si es el primer comando
-            printf("ES EL PRIMERO\n");
             descriptor=redirecEntrada(linea->redirect_input);
           }
           pid=execvp(linea->commands[comandoNumero].argv[0],linea->commands[comandoNumero].argv);

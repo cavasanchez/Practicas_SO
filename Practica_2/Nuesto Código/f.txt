@@ -1,0 +1,12 @@
+ES EL PRIMERO
+total 80
+drwxr-xr-x 2 luis luis  4096 dic  8 12:09 .
+drwxr-xr-x 4 luis luis  4096 dic  7 17:33 ..
+-rw-r--r-- 1 luis luis    37 dic  8 12:05 Ejemplo.txt
+-rw-r--r-- 1 luis luis     7 dic  8 12:05 Ejemplo.txt~
+-rwxr-xr-x 1 luis luis    14 dic  8 12:09 f.txt
+-rw-r--r-- 1 luis luis 20730 dic  6 00:41 libparser_64.a
+-rwxr-xr-x 1 luis luis 23587 dic  8 12:08 myshell
+-rw-r--r-- 1 luis luis  2460 dic  8 12:05 myshell.c
+-rwxr-xr-x 1 luis luis   267 dic  6 00:41 parser.h
+-rw-r--r-- 1 luis luis   876 dic  6 00:41 test.c
