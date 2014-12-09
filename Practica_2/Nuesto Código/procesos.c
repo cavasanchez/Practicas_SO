@@ -34,7 +34,7 @@ int main (void){
 
 	// Crear lista pipes
 	nhijos=atoi(entrada);
-	pipes = crearPipes(nhijos-1);
+	pipes = crearPipes(nhijos);
 
 	printf("Comienza el bucle de %i vueltas:\n",nhijos);
 	for(i=0;i<nhijos;i++){											
@@ -47,19 +47,25 @@ int main (void){
 				printf("Soy el hijo %d y mi padre es %d\n",getpid(),getppid());
 				printf("			Dame un mensaje y lo enviaré: ");
 				fgets(linea,MAX,stdin);
-				close(pipes[i][0]);				printf("close(pipes[%i][0])\n",i);
-				write(pipes[i][1],linea,MAX);	printf("write(pipes[%i][1],%s\n\n",i,linea);
+				dup2(pipes[i][1],1);
+				close(pipes[i][0]);							sleep(1);				printf("close(pipes[%i][0])\n",i);
+				write(pipes[i][1],linea,MAX);								sleep(1);				printf("write(pipes[%i][1],%s)\n\n",i,linea);
+				sleep(2);
 				exit(0);
 
 			} else {
 				printf("		-Número %i. ",i+1);
 				printf("Soy el hijo con pid %d y mi padre es %d\n",getpid(),getppid());
-				close(pipes[i-1][1]);			printf("close(pipes[%i][1])\n",i-1);
-				read(pipes[i-1][0],buf,MAX);	printf("read(pipes[%i][0],%s\n",i-1,buf);
+				dup2(pipes[i-1][0],0);
+				close(pipes[i-1][1]);						sleep(1);				printf("close(pipes[%i][1])\n",i-1);
+				read(pipes[i-1][0],buf,MAX);				sleep(1);				printf("read(pipes[%i][0],%s\n",i-1,buf);
+				sleep(1);
 				printf("			He recibido el mensaje: %s\n",buf);
 				printf("			Me dispongo a enviar\n\n");
-				close(pipes[i][0]);				printf("close(pipes[%i][0])\n",i);;
-				write(pipes[i][1],buf,MAX);		printf("write(pipes[%i][1],%s\n\n",i,buf);
+				dup2(pipes[i][1],1);
+				close(pipes[i][0]);							sleep(1);				printf("close(pipes[%i][0])\n",i);
+				write(pipes[i][1],buf,MAX);								sleep(1);				printf("write(pipes[%i][1],%s)\n\n",i,buf);
+				sleep(2);
 				exit(0);
 			}
 		} else {
@@ -67,8 +73,9 @@ int main (void){
 			printf("		-Soy el proceso padre con pid %d\n\n",getpid());
 			wait(NULL);
 			if (i==nhijos-1){
-				close(pipes[i][1]);
-				read(pipes[i][0],buf2,MAX);
+				close(pipes[i][1]);							sleep(1);				printf("close(pipes[%i][1])\n",i);
+				read(pipes[i][0],buf2,MAX);					sleep(1);				printf("read(pipes[%i][0],%s\n",i,buf2);
+				sleep(2);
 				printf("MENSAJE: %s\n\n",buf2);
 			}
 		}
@@ -81,8 +88,9 @@ int** crearPipes (int n){
 	int i;
 	int** pipes = (int**) malloc ((n-1)*sizeof(int*));
 
-	for (i=0;i<n+1;i++){
+	for (i=0;i<n;i++){
 		pipes[i] = (int*) malloc (2*sizeof(int));
+		pipe(pipes[i]);
 	}
 	return pipes;
 }
