@@ -13,6 +13,22 @@
 #include "parser.h"
 #define TAM 1024
 
+void comandoCD(char *ruta){
+  int a=0;
+  char* nombreRuta;
+  nombreRuta=(char*) malloc(TAM*sizeof(char));
+  if(ruta==NULL){                               //Si no pasas nada, a HOME
+    a=chdir(getenv("HOME"));
+  }else{                                        //Ir a ruta indicada. NO AUTOCOMPLETA
+    a=chdir(ruta);
+  }
+  if(a==-1){                                    //Si hay error, lo dice
+    printf("Error: No such file or directory");
+  }else{                                        //Si no, muestra la nueva ruta
+    printf("%s \n",getcwd(nombreRuta,TAM));
+  }
+}
+
 void senal (int s){
   if(s!=0){                                       //ACTIVAR
     signal(SIGINT,SIG_DFL);
@@ -60,6 +76,10 @@ int main(void){
   while(fgets(entrada,TAM,stdin)){
     linea=tokenize(entrada);
     if (linea->ncommands!=0){
+      if(strcmp(linea->commands[0].argv[0], "cd")==0){
+        comandoCD(linea->commands[0].argv[1]);
+      }
+      else{
       for(comandoNumero=0; comandoNumero < linea->ncommands; comandoNumero++){
         //printf("ENTRA FORK \n");
         pid = fork();
@@ -89,7 +109,8 @@ int main(void){
         senal(1);
       }
     }
-    printf("$ ");
+
+  }printf("$ ");
   }
   return 0;
 }
