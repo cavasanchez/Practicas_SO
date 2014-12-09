@@ -60,7 +60,7 @@ int main(void){
   while(fgets(entrada,TAM,stdin)){
     linea=tokenize(entrada);
     if (linea->ncommands!=0){
-      for(comandoNumero=0; comandoNumero<linea->ncommands; comandoNumero++){
+      for(comandoNumero=0; comandoNumero < linea->ncommands; comandoNumero++){
         //printf("ENTRA FORK \n");
         pid = fork();
         //printf("SALE FORK\n");
@@ -85,6 +85,8 @@ int main(void){
       }
       if (!linea->background) {
         waitpid(pid,NULL,0);
+      } else {
+        senal(1);
       }
     }
     printf("$ ");
