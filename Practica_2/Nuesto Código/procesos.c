@@ -9,6 +9,8 @@
 #define MAX 1024
 
 int** crearPipes (int);
+void lectura (int* ,char* );
+void escritura (int* ,char* );
 
 int main (void){
 
@@ -50,7 +52,8 @@ int main (void){
 				printf("			Dame un mensaje y lo enviaré: ");
 				fgets(linea,MAX,stdin);			// linea -> mensaje a enviar
 				// Escritura
-				//dup2(pipes[i][1],1);			// Redireccionamos la salida del proceso
+				// escritura(pipes[i],linea);
+				dup2(pipes[i][1],1);			// Redireccionamos la salida del proceso
 				close(pipes[i][0]);				// Cerramos el pipes[0][0] para escribir en pipes[0][1]
 				write(pipes[i][1],linea,MAX);
 				exit(0);
@@ -59,13 +62,15 @@ int main (void){
 				printf("		-Número %i. ",i+1);
 				printf("Soy el hijo con pid %d y mi padre es %d\n",getpid(),getppid());
 				// Lectura
+				// lectura(pipes[i-1],buf);
 				dup2(pipes[i-1][0],0);			// Redireccionamos la entrada del proceso
 				close(pipes[i-1][1]);			// Cerramos el pipes[i-1][1] para leer de pipes[i-1][0]
 				read(pipes[i-1][0],buf,MAX);
 
 				printf("			He recibido el mensaje: %s\n",buf); sleep(1);
 				// Escritura
-				//dup2(pipes[i][1],1);			// Redireccionamos la salida del proceso
+				// escritura(pipes[i],linea);
+				dup2(pipes[i][1],1);			// Redireccionamos la salida del proceso
 				close(pipes[i][0]);				// Cerramos el pipes[i][0] para escribir en pipes[i][1]
 				write(pipes[i][1],buf,MAX);
 				exit(0);
@@ -75,6 +80,8 @@ int main (void){
 			if (i==nhijos-1){			// Si es el último hijo, mostramos el mensaje
 				printf("	PROCESO PADRE\n");
 				// Lectura
+				//lectura(pipes[i],buf2);
+				dup2(pipes[i][0],0);			// Redireccionamos la entrada del proceso
 				close(pipes[i][1]);				// Cerramos el pipes[i][0] para escribir en pipes[i][1]
 				read(pipes[i][0],buf2,MAX);
 				printf("MENSAJE: %s\n\n",buf2);	// Mostramos el mensaje
@@ -86,7 +93,7 @@ int main (void){
 
 int** crearPipes (int n){
 	int i;
-	int** pipes = (int**) malloc ((n-1)*sizeof(int*));	// Existiran nhijos-1 pipes
+	int** pipes = (int**) malloc ((n-1)*sizeof(int*));
 
 	for (i=0;i<n;i++){									
 		pipes[i] = (int*) malloc (2*sizeof(int));		// A cada pipe se le reservan 2 espacios de tamaño int
@@ -95,3 +102,14 @@ int** crearPipes (int n){
 	return pipes;
 }
 
+void lectura (int* pipe,char* buffer){
+	dup2(pipe[0],0);
+	close(pipe[1]);
+	read(pipe[0],buffer,MAX);
+}
+
+void escritura (int* pipe,char* buffer){
+	dup2(pipe[1],1);
+	close(pipe[0]);
+	write(pipe[1],buffer,MAX);
+}
