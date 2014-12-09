@@ -11,6 +11,7 @@
 int** crearPipes (int);
 
 int main (void){
+
 	// VARIABLES
 	pid_t pid;
 	char* buf;
@@ -28,55 +29,55 @@ int main (void){
 	linea = (char*) malloc (MAX*sizeof(char));		// linea -> string para leer por entrada estándar
 	
 
-	// Leemos nhijos
+	// LEEMOS nhijos
 	printf("Dame un número de hijos: ");
 	fgets(entrada,MAX,stdin);
-
-	// Crear lista pipes
 	nhijos=atoi(entrada);
+
+	// Creamos lista pipes
 	pipes = crearPipes(nhijos);
 
 	printf("Comienza el bucle de %i vueltas:\n",nhijos);
-	for(i=0;i<nhijos;i++){											
+	for(i=0;i<nhijos;i++){
 		printf("   Creamos hijo. Vuelta %i\n",i);
+		// Creamos hijo
 		pid=fork();
-		if(pid==0){
+		if(pid==0){		// PROCESO HIJO
 			printf("	PROCESO HIJO\n");
-			if(i==0){
+			if(i==0){		// Primogénito
 				printf("		-Primogénito. ");
 				printf("Soy el hijo %d y mi padre es %d\n",getpid(),getppid());
 				printf("			Dame un mensaje y lo enviaré: ");
-				fgets(linea,MAX,stdin);
-				dup2(pipes[i][1],1);
-				close(pipes[i][0]);							sleep(1);				printf("close(pipes[%i][0])\n",i);
-				write(pipes[i][1],linea,MAX);								sleep(1);				printf("write(pipes[%i][1],%s)\n\n",i,linea);
-				sleep(2);
+				fgets(linea,MAX,stdin);			// linea -> mensaje a enviar
+				// Escritura
+				//dup2(pipes[i][1],1);			// Redireccionamos la salida del proceso
+				close(pipes[i][0]);				// Cerramos el pipes[0][0] para escribir en pipes[0][1]
+				write(pipes[i][1],linea,MAX);
 				exit(0);
 
-			} else {
+			} else {		// Otros hijos
 				printf("		-Número %i. ",i+1);
 				printf("Soy el hijo con pid %d y mi padre es %d\n",getpid(),getppid());
-				dup2(pipes[i-1][0],0);
-				close(pipes[i-1][1]);						sleep(1);				printf("close(pipes[%i][1])\n",i-1);
-				read(pipes[i-1][0],buf,MAX);				sleep(1);				printf("read(pipes[%i][0],%s\n",i-1,buf);
-				sleep(1);
-				printf("			He recibido el mensaje: %s\n",buf);
-				printf("			Me dispongo a enviar\n\n");
-				dup2(pipes[i][1],1);
-				close(pipes[i][0]);							sleep(1);				printf("close(pipes[%i][0])\n",i);
-				write(pipes[i][1],buf,MAX);								sleep(1);				printf("write(pipes[%i][1],%s)\n\n",i,buf);
-				sleep(2);
+				// Lectura
+				dup2(pipes[i-1][0],0);			// Redireccionamos la entrada del proceso
+				close(pipes[i-1][1]);			// Cerramos el pipes[i-1][1] para leer de pipes[i-1][0]
+				read(pipes[i-1][0],buf,MAX);
+
+				printf("			He recibido el mensaje: %s\n",buf); sleep(1);
+				// Escritura
+				//dup2(pipes[i][1],1);			// Redireccionamos la salida del proceso
+				close(pipes[i][0]);				// Cerramos el pipes[i][0] para escribir en pipes[i][1]
+				write(pipes[i][1],buf,MAX);
 				exit(0);
 			}
-		} else {
-			printf("	PROCESO PADRE\n");
-			printf("		-Soy el proceso padre con pid %d\n\n",getpid());
-			wait(NULL);
-			if (i==nhijos-1){
-				close(pipes[i][1]);							sleep(1);				printf("close(pipes[%i][1])\n",i);
-				read(pipes[i][0],buf2,MAX);					sleep(1);				printf("read(pipes[%i][0],%s\n",i,buf2);
-				sleep(2);
-				printf("MENSAJE: %s\n\n",buf2);
+		} else {		// PROCESO PADRE
+			wait(NULL);	
+			if (i==nhijos-1){			// Si es el último hijo, mostramos el mensaje
+				printf("	PROCESO PADRE\n");
+				// Lectura
+				close(pipes[i][1]);				// Cerramos el pipes[i][0] para escribir en pipes[i][1]
+				read(pipes[i][0],buf2,MAX);
+				printf("MENSAJE: %s\n\n",buf2);	// Mostramos el mensaje
 			}
 		}
 	}
@@ -84,13 +85,13 @@ int main (void){
 }
 
 int** crearPipes (int n){
-	printf("Método crearPipes");
 	int i;
-	int** pipes = (int**) malloc ((n-1)*sizeof(int*));
+	int** pipes = (int**) malloc ((n-1)*sizeof(int*));	// Existiran nhijos-1 pipes
 
-	for (i=0;i<n;i++){
-		pipes[i] = (int*) malloc (2*sizeof(int));
-		pipe(pipes[i]);
+	for (i=0;i<n;i++){									
+		pipes[i] = (int*) malloc (2*sizeof(int));		// A cada pipe se le reservan 2 espacios de tamaño int
+		pipe(pipes[i]);									// Creamos la pipe i
 	}
 	return pipes;
 }
+
