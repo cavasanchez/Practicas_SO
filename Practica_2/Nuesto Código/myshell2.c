@@ -130,9 +130,8 @@ int main (void){
 				comandoCD(linea->commands[0].argv[1]);
 			}
 			else {																										//NO es cd
-				//pipes=crearPipes(ncomandos);
+				pipes=crearPipes(ncomandos);														//Creamos todas las tuberías
 				for (i=0;i<ncomandos;i++){
-																																// Otros comandos
 					pid = fork();
  					if (pid==0){																					// PROCESO HIJO
 						senal(1);
@@ -152,8 +151,8 @@ int main (void){
 									descriptor=redirecEntrada(linea->redirect_input);
 								}
 							}
-							else {																							//Otro comando
-								printf("dup2(pipes[i-1][0],0)");
+							else {
+								//dup2(pipes[i-1][0],0);
 							}
 							pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 							if(pid==-1){
