@@ -146,7 +146,6 @@ int main (void){
 							//dup2(pipes[i][1],1);
 						}
 						if(descriptor !=-1){
-							printf("SIN ERRORES\n");
 							if (i==0){
 								printf("primer mandato\n");												// Primer comando
 								if (linea->redirect_input != NULL) {
@@ -158,17 +157,16 @@ int main (void){
 							}
 							pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 							if(pid==-1){
-								printf("ENTRA");
 								fprintf(stderr, "%s:mandato: No se encuentra el mandato\n", linea->commands[0].argv[0]);
-								//return 0;
-							}printf("SALE");
-							if (!linea->background){														// Esperar Procesos hijos
-								waitpid(pid,NULL,0);
+								return 0;
 							}
+
 						}
 					}
 				}
-				//liberarPipes(pipes,ncomandos);
+				if (!linea->background){														// Esperar Procesos hijos
+					waitpid(pid,NULL,0);
+				}
 			}
 		}
 		printf("$ ");
