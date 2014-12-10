@@ -142,7 +142,8 @@ int main (void){
 							}
 						}
 						else{
-							//dup2(pipes[i][1],1);
+							close(pipes[i][0]);
+							dup2(pipes[i][1],1);
 						}
 						if(descriptor !=-1){
 							if (i==0){
@@ -152,7 +153,8 @@ int main (void){
 								}
 							}
 							else {
-								//dup2(pipes[i-1][0],0);
+								close(pipes[i-1][1]);
+								dup2(pipes[i-1][0],0);
 							}
 							pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 							if(pid==-1){
