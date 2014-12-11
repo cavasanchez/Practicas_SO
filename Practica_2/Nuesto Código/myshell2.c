@@ -25,10 +25,6 @@ void senal (int s){
 	}
 }
 
-void prompt (void){
-	printf("$ ");
-}
-
 void comandoCD(char *ruta){
 	int a=0;
 	char* nombreRuta;
@@ -67,8 +63,8 @@ void liberarPipes(int** pipes,int n) {	// liberarPipes -> libera el espacio rese
 
 int redirecSalida (char* nombreFichero){
 	int descriptorFichero;
-	descriptorFichero=open(nombreFichero, O_RDWR);
-	if (descriptorFichero>0){
+	descriptorFichero=creat(nombreFichero, S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH);
+	if (descriptorFichero!=-1){
 		dup2(descriptorFichero,1);
 		close(descriptorFichero);
 	}
@@ -130,8 +126,9 @@ int main (void){
 				comandoCD(linea->commands[0].argv[1]);
 			}
 			else {																										//NO es cd
-				pipes=crearPipes(ncomandos);														//Creamos todas las tuberías
+				//pipes=crearPipes(ncomandos);
 				for (i=0;i<ncomandos;i++){
+																																// Otros comandos
 					pid = fork();
  					if (pid==0){																					// PROCESO HIJO
 						senal(1);
@@ -142,32 +139,32 @@ int main (void){
 							}
 						}
 						else{
-							close(pipes[i][0]);
-							dup2(pipes[i][1],1);
+							//dup2(pipes[i][1],1);
 						}
 						if(descriptor !=-1){
+							printf("SIN ERRORES\n");
 							if (i==0){
 								printf("primer mandato\n");												// Primer comando
 								if (linea->redirect_input != NULL) {
 									descriptor=redirecEntrada(linea->redirect_input);
 								}
 							}
-							else {
-								close(pipes[i-1][1]);
-								dup2(pipes[i-1][0],0);
+							else {																							//Otro comando
+								printf("dup2(pipes[i-1][0],0)");
 							}
 							pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 							if(pid==-1){
+								printf("ENTRA");
 								fprintf(stderr, "%s:mandato: No se encuentra el mandato\n", linea->commands[0].argv[0]);
-								return 0;
+								//return 0;
+							}printf("SALE");
+							if (!linea->background){														// Esperar Procesos hijos
+								waitpid(pid,NULL,0);
 							}
-
 						}
 					}
 				}
-				if (!linea->background){														// Esperar Procesos hijos
-					waitpid(pid,NULL,0);
-				}
+				//liberarPipes(pipes,ncomandos);
 			}
 		}
 		printf("$ ");
