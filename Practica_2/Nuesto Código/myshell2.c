@@ -46,7 +46,7 @@ int** crearPipes (int n){ // crearPipes -> reserva el espacio de la lista de pip
 	int num = (n % 2 == 0)? n+1:n;
 	int** pipes = (int**) malloc ((num-1)*sizeof(int*));
 
-	for (i=0;i<n;i++){
+	for (i=0;i<n-1;i++){
 		pipes[i] = (int*) malloc (2*sizeof(int)); // A cada pipe se le reservan 2 espacios de tamaño int
 		pipe(pipes[i]); // Creamos la pipe i
 	}
@@ -80,21 +80,15 @@ int redirecEntrada (char* nombreFichero){
 	}
 	return(descriptorFichero);
 }
+int** pipesList (int n){
 
-/**int redirectError (){
+	int i;
+	int** pl=(int**) malloc((n-1)*sizeof(int*));
 
-}*/
-
-void lectura (int* pipe,char* buffer){	// lectura -> leemos del pipe
-	dup2(pipe[0],0);
-	close(pipe[1]);
-	read(pipe[0],buffer,TAM);
-}
-
-void escritura (int* pipe,char* buffer){	// escritura -> escribimos en el pipe
-	dup2(pipe[1],1);
-	close(pipe[0]);
-	write(pipe[1],buffer,TAM);
+	for(i=0;i<n;i++){
+		pl[i]=(int*) malloc(2*sizeof(int));
+	}
+	return pl;
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,6 +102,7 @@ int main (void){
 	int descriptor=0;
 	int ncomandos;
 	int i;
+	int j;
 
 
 	// INICIALIZACIÓN
@@ -120,46 +115,61 @@ int main (void){
 	while (fgets(entrada,TAM,stdin)){
 		linea=tokenize(entrada);		// Leemos la entrada
 		ncomandos=linea->ncommands;
-		if (ncomandos>0){		// Si hay comandos que leer
+		if (ncomandos!=0){		// Si hay comandos que leer
 			printf("Comandos=%i\n",ncomandos);
 			if(strcmp(linea->commands[0].argv[0], "cd")==0){
 				comandoCD(linea->commands[0].argv[1]);
 			}
 			else {																										//NO es cd
-				pipes=crearPipes(ncomandos);
+				//pipes=crearPipes(ncomandos);
+				pipes = pipesList(linea->ncommands);
 				for (i=0;i<ncomandos;i++){
+					if(i!=linea->ncommands-1){
+						//Creamos los pipes
+						pipe(pipes[i]);
+					}
 					pid = fork();
 
 					if (pid==0){																					// PROCESO HIJO
+						//Activamos las señales.
 						senal(1);
-						if(i==linea->ncommands-1){													//ultimo comando
-							printf("último mandato\n");
-							if (linea->redirect_output != NULL) {
-								printf("Hay redirección de salida\n");
-								descriptor=redirecSalida(linea->redirect_output);
+						//Si no es el primer mandato:
+						if(i!=0){
+							//Cerramos entradas de pipes innecesarias y establecemos la salida del pipe anterior como entrada estándar.
+							close(pipes[i-1][1]);
+							dup2(pipes[i-1][0],0);
+						}else{
+							//Si hay redirección de entrada:
+							if (linea->redirect_input != NULL) {
+								descriptor=redirecEntrada(linea->redirect_input);
 							}
-						}
-						else{
-							close(pipes[i][0]);
-							dup2(pipes[i][1],1);
 						}
 
-						if(descriptor !=-1){
-							printf("SIN ERRORES\n");
-							if (i==0){
-								printf("primer mandato\n");												// Primer comando
-								if (linea->redirect_input != NULL) {
-									printf("Hay redirección de entrada\n");
-									descriptor=redirecEntrada(linea->redirect_input);
+						//Si no hay errores en la redirección de entrada:
+						//NOTA: Si existe un error en la redirección de salida no es tan problemático, en ese caso se utilizará la salida estándar y se avisará al usuario del error
+						if(descriptor!=-1){
+							//Si no es el último mandato:
+							if((i!=linea->ncommands-1)&&(descriptor!=-1)){
+								//Cerramos salidas de pipes innecesarias y establecemos la entrada del pipe como salida estándar.
+								close(pipes[i][0]);
+								dup2(pipes[i][1],1);
+							}else{
+								//Si hay redirección de salida:
+								if(linea->redirect_output!=NULL){
+									redirecSalida(linea->redirect_output);
 								}
 							}
-							else {
-								close(pipes[i-1][1]);
-								dup2(pipes[i-1][0],0);
+
+							//Cerramos los pipes hasta i.
+							for(j=0; j<i; j++){
+								close(pipes[j][0]);
+								close(pipes[j][1]);
 							}
+							//Ejecutamos el mandato
 							pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 							if(pid==-1){
-								fprintf(stderr, "%s:mandato: No se encuentra el mandato\n", linea->commands[0].argv[0]);
+								fprintf(stderr, "%s: No se encuentra el mandato\n", linea->commands[0].argv[0]);
+								return 0;
 							}
 						}
 					}
@@ -168,8 +178,8 @@ int main (void){
 					waitpid(pid,NULL,0);
 				}
 			}
-			printf("$ ");
 		}
+		printf("$ ");
 	}
 	return 0;
 }
