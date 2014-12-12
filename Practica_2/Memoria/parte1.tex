@@ -1,23 +1,27 @@
 \chapter{Código}
 \section{Funciones Auxiliares}
 \subsection{void senal (int s)}
-Fución que se encarga de activar o desactivar las señales SIGINT y SIGQUIT, de tal modo que en caso de tratarse de un proceso en background o de la propia minishell, no respondan. Sin embargo no se activarán si es un proceso foreground.
+Función que se encarga de activar o desactivar las señales SIGINT y SIGQUIT, de tal modo que en caso de tratarse de un proceso en background o de la propia minishell, no respondan. Sin embargo no se activarán si es un proceso foreground.
 \subsection{void comandoCD(char *ruta)}
 Cambia el directorio de trabajo a la especificada en "ruta". En caso de no especificar una ruta, accede a HOME.
 \subsection{int** crearPipes (int n)}
-Función que se encarga de crear las tuberías necesarias. Crea $n-1$ tuberías ¿¿¿¿¿¿¿¿¿¿SEGURO?????????.
-\subsection{void liberarPipes(int** pipes,int n)}
-HAY QUE ACABARLO
+Función que se encarga de crear las tuberías necesarias. Crea $n-1$ tuberías, ya que para el último hijo no es necesario, al ser éste el que ejecuta el último mandato.
+\subsection{void liberarTodasPipes(int** pipes,int n)}
+Método que cierra todas las tuberías usadas hasta ese momento.
 \subsection{int redirecSalida (char* nombreFichero)}
 En caso de que se haya introducido un comando con el símbolo $>$ y se trate del último comando, se activará la redirección por salida. Para ello se creará un fichero con el nombre especificado, y si no hay error al crearlo copiará la salida estándar al fichero.
 \subsection{int redirecEntrada (char* nombreFichero)}
 En caso de que se haya introducido un comando con el símbolo $<$ y se trate del primer mandato, se activará la redirección por entrada. Para ello abre el fichero con el nombre especificado, y si no hay error al leerlo, copiará el contenido del fichero a la entrada estándar.
 \section{main}
-HAY QUE ACABARLO
+Sigue un esquema similar al siguiente
+\\
+ESQUEMAAAA\\
+Explicamos muy brevemente su funcionamiento: en primer lugar comprueba que se haya introducido una orden (a excepción de "cd", cuyo caso es diferente). A continuación analiza si es el último mandato, en cuyo caso imprimirá el resultado. Si no es el último, mediante la función $dup2$ copiamos su contenido y mediante tuberías se lo pasamos al siguiente proceso. Finalmente realizarán las redirecciones en caso de ser necesarias.\\
+
 
 \chapter{Comentarios personales}
 \section{Problemas encontrados}
-AL igual que la práctica anterior, hemos ido añadiendo funcionalidades de manera incremental. De esta manera en un principio comprobamos el correcto funcionamiento al ejecutar un solo comando. A continuación probamos que redireccionará la salida y la entrada correctamente, después añadimos la funcionalidad para el comando "cd". Finalmente añadimos la comunicación entre procesos. Este último paso fue el que más problemas nos acarreó, ya que en un principio no poseíamos los conocimientos teóricos suficientemente claros y no teníamos muy clara como debían crearse los procesos (se crean hijos sucesivos, o se crean hijos hermanos).
+AL igual que la práctica anterior, hemos ido añadiendo funcionalidades de manera incremental. De esta manera en un principio comprobamos el correcto funcionamiento al ejecutar un solo comando. A continuación probamos que redireccionara la salida y la entrada correctamente, después añadimos la funcionalidad para el comando "cd". Finalmente añadimos la comunicación entre procesos. Este último paso fue el que más problemas nos acarreó, ya que en un principio no poseíamos los conocimientos teóricos suficientemente claros y no sabíamos como debían crearse los procesos (se crean hijos sucesivos, o se crean hijos hermanos). Además nos dieron muchos problemas las tuberías, especialmente en el último proceso, ya que no se cerraba correctamente. Por ello tuvimos que añadir el método $cierraTodasPipes$ que cierra todas las tuberías anteriores, asegurándonos así que no nos cejábamos algo abierto.
 \section{Posibles mejoras}
-Debido a la falta de tiempo no hemos podido comprobar las fugas de memoria, así que no sabemos cual es la calidad de nuestro código en este aspecto. Por otra parte, se podrían continuar añadiendo funcionalidades a la shell hasta conseguir una similar a la original. Para ello se podría por ejemplo añadir antes del promp el usuario que ha ejecutado la terminal. También podría añadirse la funcionalidad del autocompletado con la tecla tabulación, que facilita enormemente el uso de la terminal cuando hay que escribir rutas largas o tratar con nombres de archivos largos.\\
-Por otro lado, la estructura de nuestro método $main$ main no nos parece la más eficiente posible, ya que tiene un número muy alto de ramificaciones y, francamente, es complicado hasta para nosotros. Por tanto esta sería nuestra primera prioridad si dispusiéramos de más tiempo . 
+Debido a la falta de tiempo no hemos podido comprobar las fugas de memoria, así que no sabemos cual es la calidad de nuestro código en este aspecto. Por otra parte, se podrían continuar añadiendo funcionalidades a la shell hasta conseguir una similar a la original. Podríamos por tanto añadir antes del promp el usuario que ha ejecutado la terminal, o añadir la funcionalidad del autocompletado con la tecla tabulación, que facilita enormemente el uso de la terminal cuando hay que escribir rutas largas o tratar con nombres de archivos largos. Siguiendo con ampliaciones que mejoran el manejo de la shell, usar las teclas de arriba y abajo para acceder al historial de comandos introducidos\\
+Por otro lado, la estructura de nuestro método $main$ main no nos parece la más eficiente posible, ya que tiene un número muy alto de ramificaciones y, francamente, es complicado de entender hasta para nosotros. Por tanto nuestra primera prioridad si dispusiéramos de más tiempo sería cambiar la estructura del main, reduciendo todo lo posible las ramificaciones y añadiendo más métodos auxiliares que ayuden a la comprensión del código. 
