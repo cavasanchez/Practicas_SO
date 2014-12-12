@@ -126,48 +126,50 @@ int main (void){
 				comandoCD(linea->commands[0].argv[1]);
 			}
 			else {																										//NO es cd
-				//pipes=crearPipes(ncomandos);
+				pipes=crearPipes(ncomandos);
 				for (i=0;i<ncomandos;i++){
-																																// Otros comandos
 					pid = fork();
- 					if (pid==0){																					// PROCESO HIJO
+
+					if (pid==0){																					// PROCESO HIJO
 						senal(1);
 						if(i==linea->ncommands-1){													//ultimo comando
 							printf("último mandato\n");
 							if (linea->redirect_output != NULL) {
+								printf("Hay redirección de salida\n");
 								descriptor=redirecSalida(linea->redirect_output);
 							}
 						}
 						else{
-							//dup2(pipes[i][1],1);
+							close(pipes[i][0]);
+							dup2(pipes[i][1],1);
 						}
+
 						if(descriptor !=-1){
 							printf("SIN ERRORES\n");
 							if (i==0){
 								printf("primer mandato\n");												// Primer comando
 								if (linea->redirect_input != NULL) {
+									printf("Hay redirección de entrada\n");
 									descriptor=redirecEntrada(linea->redirect_input);
 								}
 							}
-							else {																							//Otro comando
-								printf("dup2(pipes[i-1][0],0)");
+							else {
+								close(pipes[i-1][1]);
+								dup2(pipes[i-1][0],0);
 							}
 							pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 							if(pid==-1){
-								printf("ENTRA");
 								fprintf(stderr, "%s:mandato: No se encuentra el mandato\n", linea->commands[0].argv[0]);
-								//return 0;
-							}printf("SALE");
-							if (!linea->background){														// Esperar Procesos hijos
-								waitpid(pid,NULL,0);
 							}
 						}
 					}
 				}
-				//liberarPipes(pipes,ncomandos);
+				if (!linea->background){														// Esperar Procesos hijos
+					waitpid(pid,NULL,0);
+				}
 			}
+			printf("$ ");
 		}
-		printf("$ ");
 	}
 	return 0;
 }
