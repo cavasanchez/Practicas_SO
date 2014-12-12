@@ -103,7 +103,8 @@ int main (void){
 // MÉTODOS AUXILIARES
 int** crearPipes (int n){	// crearPipes -> reserva el espacio de la lista de pipes y crea los pipes
 	int i;
-	int** pipes = (int**) malloc ((n-1)*sizeof(int*));
+	int num = (n % 2 == 0)? n+1:n;
+	int** pipes = (int**) malloc ((num-1)*sizeof(int*));
 
 	for (i=0;i<n;i++){									
 		pipes[i] = (int*) malloc (2*sizeof(int));		// A cada pipe se le reservan 2 espacios de tamaño int
@@ -115,10 +116,8 @@ int** crearPipes (int n){	// crearPipes -> reserva el espacio de la lista de pip
 void liberarPipes(int** pipes,int n) {	// liberarPipes -> libera el espacio reservado de la lista de pipes
 	int i;
 	for (i=0;i<n-1;i++){
-		printf("Liberamos el pipe %i\n",i);
 		free(pipes[i]);
 	}
-	printf("liberamos la lista de pipes\n");
 	free(pipes);
 }
 
