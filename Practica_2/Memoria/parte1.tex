@@ -1,22 +1,26 @@
 \chapter{Código}
 \section{Funciones Auxiliares}
 \subsection{void senal (int s)}
-Función que se encarga de activar o desactivar las señales SIGINT y SIGQUIT, de tal modo que en caso de tratarse de un proceso en background o de la propia minishell, no respondan. Sin embargo no se activarán si es un proceso foreground.
+Función que se encarga de activar o desactivar las señales SIGINT y SIGQUIT, de tal modo que en caso de tratarse de un proceso en background o de la propia minishell, no respondan. Sin embargo no se activarán si es un proceso foreground.\\
+Su funcionamiento es muy sencillo: usando la función \textit{signal} si se le pasa el parámetro 0 las desactiva, y si es un 1 las activa
 \subsection{void comandoCD(char *ruta)}
-Cambia el directorio de trabajo a la especificada en "ruta". En caso de no especificar una ruta, accede a HOME.
+Mediante la función $chdir$ cambia el directorio de trabajo al especificado en "ruta". En caso de no especificar una ruta, accede a HOME. En caso de introducirse una ruta inexistente avisará del error.
 \subsection{int** crearPipes (int n)}
 Función que se encarga de crear las tuberías necesarias. Crea $n-1$ tuberías, ya que para el último hijo no es necesario, al ser éste el que ejecuta el último mandato.
 \subsection{void liberarTodasPipes(int** pipes,int n)}
 Método que cierra todas las tuberías usadas hasta ese momento.
 \subsection{int redirecSalida (char* nombreFichero)}
-En caso de que se haya introducido un comando con el símbolo $>$ y se trate del último comando, se activará la redirección por salida. Para ello se creará un fichero con el nombre especificado, y si no hay error al crearlo copiará la salida estándar al fichero.
+En caso de que se haya introducido una orden con el símbolo $>$ y se trate del último comando, se activará la redirección por salida. Para ello se creará un fichero con el nombre especificado con permisos de lectura y escritura para todo el mundo, y si no hay error al crearlo copiará la salida estándar al fichero.
 \subsection{int redirecEntrada (char* nombreFichero)}
-En caso de que se haya introducido un comando con el símbolo $<$ y se trate del primer mandato, se activará la redirección por entrada. Para ello abre el fichero con el nombre especificado, y si no hay error al leerlo, copiará el contenido del fichero a la entrada estándar.
-\section{main}
+En caso de que se haya introducido un comando con el símbolo $<$ y se trate del primer mandato, se activará la redirección por entrada. Para ello abre el fichero con el nombre especificado con permisos de solo lectura, y si no hay error al leerlo, copiará el contenido del fichero a la entrada estándar.
+\subsection{int redirecError (char* nombreFichero)}
+Se encarga de comprobar que no hay error al crear o leer un fichero en caso de ser necesaria una redirección.\\
+Su funcionamiento es muy similar a $redirecSalida$, pero a la hora de llamar a la función $dup2$ lo hacemos redirigiendo al error en vez de a la salida.
+\section{Main}
 Sigue un esquema similar al siguiente
 \\
 ESQUEMAAAA\\
-Explicamos muy brevemente su funcionamiento: en primer lugar comprueba que se haya introducido una orden (a excepción de "cd", cuyo caso es diferente). A continuación analiza si es el último mandato, en cuyo caso imprimirá el resultado. Si no es el último, mediante la función $dup2$ copiamos su contenido y mediante tuberías se lo pasamos al siguiente proceso. Finalmente realizarán las redirecciones en caso de ser necesarias.\\
+Explicamos muy brevemente su funcionamiento: en primer lugar comprueba que se haya introducido una orden (a excepción de "cd", cuyo caso es diferente). A continuación analiza si es el último mandato, en cuyo caso imprimirá el resultado. Si no es el último, gracias a la función $dup2$ copiamos su contenido, y mediante tuberías se lo pasamos al siguiente proceso. Finalmente se realizarán las redirecciones en caso de ser necesarias.\\
 
 
 \chapter{Comentarios personales}

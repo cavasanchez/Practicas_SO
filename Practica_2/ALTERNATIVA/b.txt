@@ -1,0 +1,5 @@
+ALTERNATIVA
+ALTERNATIVA.c
+b.txt
+libparser_64.a
+parser.h
