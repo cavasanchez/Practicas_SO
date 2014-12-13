@@ -181,6 +181,7 @@ int main (void){
 							descriptor = redirecEntrada(linea);
 							falloEntrada(descriptor,linea->redirect_input);
 							descriptor = redirecSalida(linea);
+							descriptor=redirecError(linea);
 						} else {						// Varios hijos
 							if (i == 0){						// Primogénito
 								printf("	> Primogénito\n");
@@ -191,6 +192,7 @@ int main (void){
 							} else if (i == ncomandos-1){		// Último hijo
 								printf("	> Último Hijo\n");
 								descriptor = redirecSalida(linea);
+								descriptor=redirecError(linea);
 								printf("		- lectura (pipes[%i])\n",i-1);
 								lectura(pipes[i-1]);
 							} else {					// Otro
@@ -201,7 +203,6 @@ int main (void){
 								escritura(pipes[i]);
 							}
 						}//FIN(1 o varios hijos)
-						descriptor=redirecError(linea);
 						printf("		- cerramos %i pipes\n",ncomandos-1);
 						cerrarPipes(pipes,i);
 						printf("		- ejecutamos comando\n\n");

@@ -163,6 +163,7 @@ int main (void){
 							descriptor = redirecEntrada(linea);
 							falloEntrada(descriptor,linea->redirect_input);
 							descriptor = redirecSalida(linea);
+							descriptor=redirecError(linea);
 						} else {						// Varios hijos
 							if (i == 0){						// Primogénito
 								descriptor = redirecEntrada(linea);
@@ -170,13 +171,13 @@ int main (void){
 								escritura(pipes[i]);
 							} else if (i == ncomandos-1){		// Último hijo
 								descriptor = redirecSalida(linea);
+								descriptor=redirecError(linea);
 								lectura(pipes[i-1]);
 							} else {					// Otro
 								lectura(pipes[i-1]);
 								escritura(pipes[i]);
 							}
 						}//FIN(1 o varios hijos)
-						descriptor=redirecError(linea);
 						cerrarPipes(pipes,i);
 						pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 						fprintf(stderr, "%s:mandato: No se encuentra el mandato\n", linea->commands[0].argv[0]);
