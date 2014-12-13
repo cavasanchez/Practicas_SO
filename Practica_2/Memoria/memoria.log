@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.30)  14 DEC 2014 00:08
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.30)  14 DEC 2014 00:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -573,11 +573,11 @@ LaTeX Info: Redefining \. on input line 2.
 LaTeX Info: Redefining \% on input line 2.
 ) ) 
 Here is how much of TeX's memory you used:
- 3547 strings out of 493304
- 45096 string characters out of 6139870
+ 3551 strings out of 493304
+ 45138 string characters out of 6139870
  107920 words of memory out of 5000000
- 6908 multiletter control sequences out of 15000+600000
- 57246 words of font info for 45 fonts, out of 8000000 for 9000
+ 6910 multiletter control sequences out of 15000+600000
+ 65778 words of font info for 47 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,5n,26p,981b,293s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/d
@@ -588,7 +588,7 @@ mf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr
 10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/font
 s/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb
 >
-Output written on memoria.pdf (9 pages, 318242 bytes).
+Output written on memoria.pdf (9 pages, 318338 bytes).
 PDF statistics:
  72 PDF objects out of 1000 (max. 8388607)
  49 compressed objects within 1 object stream
