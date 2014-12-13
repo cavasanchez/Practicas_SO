@@ -108,6 +108,7 @@ int redirecError (tline* linea){
 void falloEntrada (int descriptor,char* fichero){
 	if (descriptor==-1){
 		fprintf(stderr,"%s : ERROR : %s\n",fichero,strerror(errno));
+		exit(0);
 	}
 }
 

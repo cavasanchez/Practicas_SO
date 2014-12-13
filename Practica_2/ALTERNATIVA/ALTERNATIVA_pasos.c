@@ -118,6 +118,7 @@ void falloEntrada (int descriptor,char* fichero){
 	if (descriptor==-1){
 		printf("			como descriptor [%i] == -1 mostramos mensaje de error:\n",descriptor);
 		fprintf(stderr,"			%s : ERROR : %s\n",fichero,strerror(errno));
+		exit(0);
 	}
 }
 
