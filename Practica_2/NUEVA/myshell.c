@@ -56,6 +56,16 @@ int redirecSalida (char* nombreFichero){
 	return(descriptorFichero);
 }
 
+int redirecError (char* nombreFichero){
+	int descriptorFichero;
+	descriptorFichero=creat(nombreFichero, S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH);
+	if (descriptorFichero!=-1){
+		dup2(descriptorFichero,2);
+		close(descriptorFichero);
+	}
+	return(descriptorFichero);
+}
+
 void cerrarTodasPipes (int** pipes, int numero){
 	int i;
 	for(i=0;i<numero-1;i++){
@@ -73,6 +83,14 @@ int** crearPipes (int n){ // crearPipes -> reserva el espacio de la lista de pip
 		pipe(pipes[i]); // Creamos la pipe i
 	}
 	return pipes;
+}
+
+void liberarPipes(int** pipes,int n){
+	int i;
+	for (i=0;i<n-1;i++){
+		free(pipes[i]);
+	}
+	free(pipes);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +140,7 @@ int main (void) {
 								close(pipes[i][0]);
 								dup2(pipes[i][1],1);																						//Entrada del pipe como salida estándar.
 							}
+							redirecError(linea->redirect_error);
 							for(j=0; j<i; j++){																								//Cerramos todas las tuberías por ambos extremos
 								close(pipes[j][0]);
 								close(pipes[j][1]);
@@ -131,15 +150,19 @@ int main (void) {
 								fprintf(stderr, "mandato: No se encuentra el mandato\n");
 								return 0;
 							}
+						}else{
+							fprintf(stderr,"fichero: ERROR: %s\n",strerror(errno));
 						}//FIN descriptor!=-1
 					}//FIN pid==0
 				}//FIN for
 				cerrarTodasPipes(pipes,ncomandos);
 				if (linea->background) {
 					printf("[%d]\n",pid);
+					senal(0);
 				}else{
 					waitpid(pid,NULL,0);
-					}
+				}
+				liberarPipes(pipes,ncomandos);
 			}//FIN no es un "cd"
 		}//FIN else has introducido algo
 		printf("$ ");
