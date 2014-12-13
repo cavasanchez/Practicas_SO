@@ -71,7 +71,7 @@ void liberarPipes(int** pipes,int n){	// liberarPipes -> libera el espacio reser
 
 int redirecEntrada (tline* linea){
 	int descriptorFichero;
-	if (linea->redirect_output != NULL){
+	if (linea->redirect_input != NULL){
 		descriptorFichero=open(linea->redirect_input, O_RDWR);
 		if (descriptorFichero>0){
 			dup2(descriptorFichero,0);
