@@ -9,6 +9,9 @@
 \contentsline {subsection}{\numberline {1.1.6}int redirecEntrada (char* nombreFichero)}{4}
 \contentsline {subsection}{\numberline {1.1.7}int redirecError (char* nombreFichero)}{4}
 \contentsline {section}{\numberline {1.2}Main}{4}
+\contentsline {subsection}{\numberline {1.2.1}void falloEntrada (int descriptor,char* fichero)}{4}
+\contentsline {subsection}{\numberline {1.2.2}void lectura (int* pipe)}{4}
+\contentsline {subsection}{\numberline {1.2.3}void escritura (int* pipe)}{4}
 \contentsline {chapter}{\numberline {2}Comentarios personales}{5}
 \contentsline {section}{\numberline {2.1}Problemas encontrados}{5}
 \contentsline {section}{\numberline {2.2}Posibles mejoras}{5}
