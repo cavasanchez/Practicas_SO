@@ -151,7 +151,7 @@ int main (void) {
 								return 0;
 							}
 						}else{
-							fprintf(stderr,"fichero: ERROR: %s\n",strerror(errno));
+							fprintf(stderr,"%s: ERROR : %s\n",linea->redirect_input,strerror(errno));
 						}//FIN descriptor!=-1
 					}//FIN pid==0
 				}//FIN for

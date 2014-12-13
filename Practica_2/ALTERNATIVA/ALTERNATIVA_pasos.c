@@ -72,11 +72,14 @@ void liberarPipes(int** pipes,int n){	// liberarPipes -> libera el espacio reser
 int redirecEntrada (tline* linea){
 	int descriptorFichero;
 	if (linea->redirect_output != NULL){
+		printf("		- redireccionamos entrada: %s\n",linea->redirect_input);
 		descriptorFichero=open(linea->redirect_input, O_RDWR);
 		if (descriptorFichero>0){
 			dup2(descriptorFichero,0);
 			close(descriptorFichero);
 		}
+	} else {
+		printf("		- no redireccionamos entrada\n");
 	}
 	return(descriptorFichero);
 }
@@ -84,11 +87,14 @@ int redirecEntrada (tline* linea){
 int redirecSalida (tline* linea){
 	int descriptorFichero;
 	if (linea->redirect_output != NULL){
+		printf("		- redireccionamos salida: %s\n",linea->redirect_output);
 		descriptorFichero=creat(linea->redirect_output, S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH);
 		if (descriptorFichero!=-1){
 			dup2(descriptorFichero,1);
 			close(descriptorFichero);
 		}
+	} else {
+		printf("		- no redireccionamos salida\n");
 	}
 	return(descriptorFichero);
 }
@@ -96,18 +102,22 @@ int redirecSalida (tline* linea){
 int redirecError (tline* linea){
 	int descriptorFichero;
 	if (linea->redirect_error != NULL){
+		printf("		- redireccionamos error: %s\n",linea->redirect_error);
 		descriptorFichero=creat(linea->redirect_error, S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IWGRP|S_IXGRP|S_IROTH|S_IWOTH|S_IXOTH);
 		if (descriptorFichero!=-1){
 			dup2(descriptorFichero,2);
 			close(descriptorFichero);
 		}
+	} else {
+		printf("		- no redireccionamos error\n");
 	}
 	return(descriptorFichero);
 }
 
 void falloEntrada (int descriptor,char* fichero){
 	if (descriptor==-1){
-		fprintf(stderr,"%s : ERROR : %s\n",fichero,strerror(errno));
+		printf("			como descriptor [%i] == -1 mostramos mensaje de error:\n",descriptor);
+		fprintf(stderr,"			%s : ERROR : %s\n",fichero,strerror(errno));
 	}
 }
 
@@ -150,33 +160,50 @@ int main (void){
 			} else if (!strcmp(linea->commands[0].argv[0],"exit")){		// Comando exit
 				break;
 			} else {													// Otros comandos
+				printf("Creamos %i pipes\n",ncomandos-1);
 				pipes=crearPipes(ncomandos);
 				for (i=0;i<ncomandos;i++){
+					printf("Comando %i\n",i);
+					if (i == 0){
+						printf("\n> PADRE\n");
+						printf("	- esperamos hijo ...\n\n");
+					}
 					pid = fork();
 					if (pid<0){				// ERROR
 						fprintf(stderr,"ERROR\n");
 						exit(1);
 					} else if (pid==0){		// PROCESO HIJO
 						senal(1);
+						printf("> HIJO %i\n",i);
 						if(ncomandos == 1){				// Hijo único
+							printf("	> Hijo único\n");
 							descriptor = redirecEntrada(linea);
 							falloEntrada(descriptor,linea->redirect_input);
 							descriptor = redirecSalida(linea);
 						} else {						// Varios hijos
 							if (i == 0){						// Primogénito
+								printf("	> Primogénito\n");
 								descriptor = redirecEntrada(linea);
 								falloEntrada(descriptor,linea->redirect_input);
+								printf("		- escritura (pipes[%i])\n",i);
 								escritura(pipes[i]);
 							} else if (i == ncomandos-1){		// Último hijo
+								printf("	> Último Hijo\n");
 								descriptor = redirecSalida(linea);
+								printf("		- lectura (pipes[%i])\n",i-1);
 								lectura(pipes[i-1]);
 							} else {					// Otro
+								printf("	> Otro Hijo (%i)\n",i-1);
+								printf("		- lectura (pipes[%i])\n",i-1);
 								lectura(pipes[i-1]);
+								printf("		- escritura (pipes[%i])\n",i);
 								escritura(pipes[i]);
 							}
 						}//FIN(1 o varios hijos)
 						descriptor=redirecError(linea);
+						printf("		- cerramos %i pipes\n",ncomandos-1);
 						cerrarPipes(pipes,i);
+						printf("		- ejecutamos comando\n\n");
 						pid=execvp(linea->commands[i].argv[0],linea->commands[i].argv);
 						fprintf(stderr, "%s:mandato: No se encuentra el mandato\n", linea->commands[0].argv[0]);
 						exit(0);
@@ -184,11 +211,15 @@ int main (void){
 				}//FIN for
 				cerrarPipes(pipes,ncomandos);
 				if (linea->background){
+					printf("	- Desactivamos señales (proceso en Background)\n");
 					printf("[%d]\n",pid);
 					senal(0);
 				} else {
 					waitpid(pid,NULL,0);
+					printf("\n> PADRE\n");
+					printf("	- proceso hijo ha terminado\n");
 				}
+				printf("	- liberamos pipes\n\n\n\n");
 				liberarPipes(pipes,ncomandos);
 			}//FIN (cd,exit,otro)
 		}//FIN ncomandos>0
