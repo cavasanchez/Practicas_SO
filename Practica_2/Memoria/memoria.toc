@@ -16,3 +16,4 @@
 \contentsline {chapter}{\numberline {2}Comentarios personales}{7}
 \contentsline {section}{\numberline {2.1}Problemas encontrados}{7}
 \contentsline {section}{\numberline {2.2}Posibles mejoras}{7}
+\contentsline {chapter}{\numberline {3}Algunas capturas}{9}
