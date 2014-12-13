@@ -23,18 +23,9 @@ Función que comprueba si se ha cometido un fallo en la apertura de un fichero, 
 Este método recibe una tubería, y se encarga de cerrar el lado de escritura [1], duplicando el lado de lectura [0].
 \subsection{void escritura (int* pipe)}
 Este método recibe una tubería, y se encarga de cerrar el lado de lectura [0], duplicando el lado de escritura [1].
+\newpage
 \section{Main}
-El método principal sigue un esquema similar al siguiente:
-\begin{figure}[]
-\begin{center}
- \centering
- \includegraphics[width=0.8\textwidth]{./esquema}
- \caption{Esquema del main}
- \label{fig:Esquema del main}
-\end{center}
-\end{figure}
 Explicamos muy brevemente su funcionamiento:
-\newpage 
 \begin{enumerate}
  \item WHILE: inicia un bucle infinito que lee por entrada estándar los comandos a ejecutar.
  \item CD: en el caso de que el primer comando introducido sea \textit{cd}, ejecutará el comando cd realizando una llamada al método auxiliar \textit{comandoCD}.
@@ -50,6 +41,14 @@ Explicamos muy brevemente su funcionamiento:
  \item EJECUTA: sea cual sea el proceso bifurcado, se ejecutará el comando correspondiente, y en caso de que no se ejecute, se mostrará por pantalla el error de que el mandato no se ha encontrado, finalizando el proceso.
  \item PADRE: el proceso padre, en el caso de que el comando ejecutado se produzca en foreground, esperará a que terminen los comandos antes de proceder a mostrar el promp. En el caso de que el comando ejecutado se produzca en background, desactivará para este la señales SIGINT y SIGQUIT, mostrará el pid del proceso que se está ejecutando en background, y volverá a mostrar el prompt.
 \end{enumerate}
+\begin{figure}[htb]
+\begin{center}
+ \centering
+ \includegraphics[width=0.8\textwidth]{./esquema}
+ \caption{Esquema del main}
+ \label{fig:Esquema del main}
+\end{center}
+\end{figure}
 
 \chapter{Comentarios personales}
 \section{Problemas encontrados}
