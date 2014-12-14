@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -174,7 +173,11 @@ int main (void){
 						fprintf(stderr,"ERROR\n");
 						exit(1);
 					} else if (pid==0){		// PROCESO HIJO
-						senal(1);
+						if (linea->background){
+							senal(0);
+						} else {
+							senal(1);
+						}
 						printf("> HIJO %i\n",i);
 						if(ncomandos == 1){				// Hijo único
 							printf("	> Hijo único\n");
@@ -215,7 +218,6 @@ int main (void){
 				if (linea->background){
 					printf("	- Desactivamos señales (proceso en Background)\n");
 					printf("[%d]\n",pid);
-					senal(0);
 				} else {
 					waitpid(pid,NULL,0);
 					printf("\n> PADRE\n");
