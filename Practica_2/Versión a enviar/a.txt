@@ -1,0 +1,12 @@
+		- no redireccionamos error
+		- cerramos 0 pipes
+		- ejecutamos comando
+
+ALTERNATIVA_pasos
+ALTERNATIVA_pasos.c
+a.txt
+libparser_64.a
+myshell
+myshell.c
+myshell_pasos.c
+parser.h
