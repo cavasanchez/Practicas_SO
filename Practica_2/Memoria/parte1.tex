@@ -30,7 +30,7 @@ Explicamos muy brevemente su funcionamiento:
  \item WHILE: inicia un bucle infinito que lee por entrada estándar los comandos a ejecutar.
  \item CD: en el caso de que el primer comando introducido sea \textit{cd}, ejecutará el comando cd realizando una llamada al método auxiliar \textit{comandoCD}.
  \item EXIT: en el caso de que el primer comando introducido sea \textit{exit}, finalizará el programa.
- \item OTRO: en el caso de que el primer comando no sea ninguno de los dos anteriores, inicializará una lista de tuberías (con tantas tuberías como comandos-1 que posea la línea), e iniciar un bucle FOR con tantas iteraciones como comandos se hayan introducido, en la que en cada una se hace la llamada a \textit{fork()} bifurcando el proceso en proceso.
+ \item OTRO: en el caso de que el primer comando no sea ninguno de los dos anteriores, inicializará una lista de tuberías (con tantas tuberías como comandos-1 que posea la línea), e iniciar un bucle FOR con tantas iteraciones como comandos se hayan introducido, en la que en cada una se hace la llamada a \textit{fork()} bifurcando el proceso en proceso. También, si el proceso se está ejecutando en background se ignorarán las señales SIGIGN y SIGQUIT, mientras que si se está ejecutando e foreground, se mantendrán activas las dichas señales.
  \item HIJO ÚNICO: en el caso de que solo se haya introducido un solo comando, se redireccionará la entrada y salida (tanto normal como error), en caso de que venga indicado en el comando.
  \item VARIOS HIJOS: en el caso de que haya más de un comando, se procederá de la siguiente manera:
  \begin{itemize}
@@ -39,7 +39,7 @@ Explicamos muy brevemente su funcionamiento:
   \item OTRO: si no es el primer o último comando, se pondrá la tubería anterior en modo lectura y la actual en modo escritura.
  \end{itemize}
  \item EJECUTA: sea cual sea el proceso bifurcado, se ejecutará el comando correspondiente, y en caso de que no se ejecute, se mostrará por pantalla el error de que el mandato no se ha encontrado, finalizando el proceso.
- \item PADRE: el proceso padre, en el caso de que el comando ejecutado se produzca en foreground, esperará a que terminen los comandos antes de proceder a mostrar el prompt. En el caso de que el comando ejecutado se produzca en background, desactivará para este la señales SIGINT y SIGQUIT, mostrará el pid del proceso que se está ejecutando en background, y volverá a mostrar el prompt.
+ \item PADRE: el proceso padre, en el caso de que el comando ejecutado se produzca en foreground, esperará a que terminen los comandos antes de proceder a mostrar el prompt. En el caso de que el comando ejecutado se produzca en background se mostrará el pid del proceso que se está ejecutando en background (pero no esperará a que termine el proceso), y volverá a mostrar el prompt.
 \end{enumerate}
 \begin{figure}[htb]
 \begin{center}
