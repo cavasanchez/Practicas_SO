@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
 #include "parser.h"
@@ -35,7 +33,7 @@ void comandoCD(char *ruta){
 	}
 	if(a==-1){                                    //Si hay error, lo dice
 		printf("Error: No such file or directory");
-	}else{                                        //Si no, muestra la nueva ruta
+	} else {                                        //Si no, muestra la nueva ruta
 		printf("%s \n",getcwd(nombreRuta,TAM));
 	}
 }
